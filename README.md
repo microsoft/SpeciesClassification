@@ -1,4 +1,9 @@
 
+# Overview
+
+This project contains the training code for the AI for Earth Species Classification API, along with the code for our API demo page (http://aka.ms/speciesclassification).
+
+
 # Contributing
 
 This project welcomes contributions and suggestions.  Most contributions require you to agree to a
