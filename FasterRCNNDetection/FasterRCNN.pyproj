@@ -1,0 +1,68 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003" DefaultTargets="Build">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{1d98d6c1-21a0-41d1-846e-851fd3c09973}</ProjectGuid>
+    <ProjectHome />
+    <StartupFile>api.py</StartupFile>
+    <SearchPath />
+    <WorkingDirectory>.</WorkingDirectory>
+    <OutputPath>.</OutputPath>
+    <ProjectTypeGuids>{888888a0-9f3d-457c-b088-3a5042f75d52}</ProjectTypeGuids>
+    <LaunchProvider>Standard Python launcher</LaunchProvider>
+    <InterpreterId>Global|ContinuumAnalytics|Anaconda36-64</InterpreterId>
+    <CommandLineArguments>train --env='fasterrcnn-caffe' --plot-every=100 --load-path checkpoints/chainer_best_model_converted_to_pytorch_0.7053.pth</CommandLineArguments>
+    <EnableNativeCodeDebugging>False</EnableNativeCodeDebugging>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)' == 'Debug'" />
+  <PropertyGroup Condition="'$(Configuration)' == 'Release'" />
+  <PropertyGroup>
+    <VisualStudioVersion Condition=" '$(VisualStudioVersion)' == '' ">10.0</VisualStudioVersion>
+  </PropertyGroup>
+  <ItemGroup>
+    <Content Include="misc\demo.jpg" />
+    <Content Include="requirements.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="api.py" />
+    <Compile Include="data\dataset.py" />
+    <Compile Include="data\util.py" />
+    <Compile Include="data\voc_dataset.py" />
+    <Compile Include="data\__init__.py" />
+    <Compile Include="misc\convert_caffe_pretrain.py" />
+    <Compile Include="misc\train_fast.py" />
+    <Compile Include="model\faster_rcnn.py" />
+    <Compile Include="model\faster_rcnn_vgg16.py" />
+    <Compile Include="model\region_proposal_network.py" />
+    <Compile Include="model\roi_module.py" />
+    <Compile Include="model\utils\bbox_tools.py" />
+    <Compile Include="model\utils\creator_tool.py" />
+    <Compile Include="model\utils\nms\build.py" />
+    <Compile Include="model\utils\nms\non_maximum_suppression.py" />
+    <Compile Include="model\utils\nms\_nms_gpu_post_py.py" />
+    <Compile Include="model\utils\nms\__init__.py" />
+    <Compile Include="model\utils\roi_cupy.py" />
+    <Compile Include="model\utils\__init__.py" />
+    <Compile Include="model\__init__.py" />
+    <Compile Include="train.py" />
+    <Compile Include="trainer.py" />
+    <Compile Include="utils\array_tool.py" />
+    <Compile Include="utils\config.py" />
+    <Compile Include="utils\eval_tool.py" />
+    <Compile Include="utils\vis_tool.py" />
+    <Compile Include="utils\__init__.py" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="data" />
+    <Folder Include="misc" />
+    <Folder Include="model" />
+    <Folder Include="model\utils" />
+    <Folder Include="model\utils\nms" />
+    <Folder Include="utils" />
+  </ItemGroup>
+  <ItemGroup>
+    <InterpreterReference Include="Global|ContinuumAnalytics|Anaconda36-64" />
+  </ItemGroup>
+  <Import Project="$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)\Python Tools\Microsoft.PythonTools.targets" />
+</Project>

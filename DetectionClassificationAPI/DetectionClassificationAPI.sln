@@ -1,0 +1,31 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 15
+VisualStudioVersion = 15.0.27004.2009
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{888888A0-9F3D-457C-B088-3A5042F75D52}") = "DetectionClassificationAPI", "DetectionClassificationAPI.pyproj", "{D9C7D7AC-8D2E-41C5-AAAB-7D487DAEE9E2}"
+EndProject
+Project("{888888A0-9F3D-457C-B088-3A5042F75D52}") = "PyTorchClassification", "..\PyTorchClassification\PyTorchClassification.pyproj", "{1A5E3A00-DA32-40B2-A065-76F277BA4363}"
+EndProject
+Project("{888888A0-9F3D-457C-B088-3A5042F75D52}") = "FasterRCNNDetection", "..\FasterRCNNDetection\FasterRCNN.pyproj", "{1D98D6C1-21A0-41D1-846E-851FD3C09973}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{D9C7D7AC-8D2E-41C5-AAAB-7D487DAEE9E2}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D9C7D7AC-8D2E-41C5-AAAB-7D487DAEE9E2}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{1A5E3A00-DA32-40B2-A065-76F277BA4363}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{1A5E3A00-DA32-40B2-A065-76F277BA4363}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{1D98D6C1-21A0-41D1-846E-851FD3C09973}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{1D98D6C1-21A0-41D1-846E-851FD3C09973}.Release|Any CPU.ActiveCfg = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {2A7F5E13-5F1A-4CFC-AB6B-686E492849AF}
+	EndGlobalSection
+EndGlobal

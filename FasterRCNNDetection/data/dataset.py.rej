@@ -1,0 +1,29 @@
+--- dataset.py
++++ dataset.py
+@@ -115,10 +115,10 @@ class Transform(object):
+ 
+ class Dataset:
+ 
+-    def __init__(self, opt):
++    def __init__(self, opt, class_names = []):
+         self.opt = opt
+         if opt.dataset == 'vott':
+-            self.db = VottBboxDataset(opt.train_image_dir)
++            self.db = VottBboxDataset(opt.train_image_dir, class_names)
+         else:
+             raise ValueError('Unrecognized data set format {}'.format(opt.dataset))
+         self.tsf = Transform(opt.min_size, opt.max_size)
+@@ -153,11 +153,11 @@ class Dataset:
+ 
+ class TestDataset:
+ 
+-    def __init__(self, opt, use_difficult=True):
++    def __init__(self, opt, class_names = []):
+ 
+         self.opt = opt
+         if opt.dataset == 'vott':
+-            self.db = VottBboxDataset(opt.val_image_dir)
++            self.db = VottBboxDataset(opt.val_image_dir, class_names)
+         else:
+             raise ValueError('Unrecognized data set format {}'.format(opt.dataset))
+         self.tsf = Transform(opt.min_size, opt.max_size)

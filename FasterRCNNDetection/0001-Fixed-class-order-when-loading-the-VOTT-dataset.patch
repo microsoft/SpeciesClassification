@@ -1,0 +1,177 @@
+From 00ea0680d17e7c22ff8445b4d41821f7f0a4938b Mon Sep 17 00:00:00 2001
+From: Ubuntu
+ <puffin@puffinvm.mw1gg3hcns4uhnmukksightp5f.bx.internal.cloudapp.net>
+Date: Thu, 4 Oct 2018 16:44:23 +0000
+Subject: [PATCH] Fixed class order when loading the VOTT dataset
+
+---
+ api.py               |  3 ++-
+ data/dataset.py      |  8 ++++----
+ data/vott_dataset.py |  4 ++--
+ train.py             | 26 ++++++++++++++++++--------
+ trainer.py           |  4 +---
+ 5 files changed, 27 insertions(+), 18 deletions(-)
+
+diff --git a/api.py b/api.py
+index b466b86..a6c5e06 100644
+--- a/api.py
++++ b/api.py
+@@ -51,7 +51,8 @@ class PlasticDetector:
+         self.trainer = FasterRCNNTrainer(self.faster_rcnn, n_fg_class=n_fg_classes)
+         if useGPU:
+             self.trainer = self.trainer.cuda()
+-        old_state = self.trainer.load(model_path)
++        state_dict = torch.load(opt.load_path)
++        old_state = self.trainer.load(state_dict)
+         self.transforms = transforms.ToTensor()
+         self.useGPU = useGPU
+ 
+diff --git a/data/dataset.py b/data/dataset.py
+index f2c6a2e..818c440 100644
+--- a/data/dataset.py
++++ b/data/dataset.py
+@@ -115,10 +115,10 @@ class Transform(object):
+ 
+ class Dataset:
+ 
+-    def __init__(self, opt):
++    def __init__(self, opt, class_names = []):
+         self.opt = opt
+         if opt.dataset == 'vott':
+-            self.db = VottBboxDataset(opt.train_image_dir)
++            self.db = VottBboxDataset(opt.train_image_dir, class_names)
+         else:
+             raise ValueError('Unrecognized data set format {}'.format(opt.dataset))
+         self.tsf = Transform(opt.min_size, opt.max_size)
+@@ -153,11 +153,11 @@ class Dataset:
+ 
+ class TestDataset:
+ 
+-    def __init__(self, opt, use_difficult=True):
++    def __init__(self, opt, class_names = []):
+ 
+         self.opt = opt
+         if opt.dataset == 'vott':
+-            self.db = VottBboxDataset(opt.val_image_dir)
++            self.db = VottBboxDataset(opt.val_image_dir, class_names)
+         else:
+             raise ValueError('Unrecognized data set format {}'.format(opt.dataset))
+         self.tsf = Transform(opt.min_size, opt.max_size)
+diff --git a/data/vott_dataset.py b/data/vott_dataset.py
+index 09d0dd6..3cb2c9c 100644
+--- a/data/vott_dataset.py
++++ b/data/vott_dataset.py
+@@ -54,7 +54,7 @@ class VottBboxDataset:
+ 
+     """
+     
+-    def __init__(self, root):
++    def __init__(self, root, class_names = []):
+         self.root = root
+         print('Loading images from folder ' + root)
+         # set up the filenames and annotations
+@@ -68,7 +68,7 @@ class VottBboxDataset:
+         # the correct image. Kind of slow at the moment...
+         self.bboxes = [[] for _ in self.image_ids]
+         self.labels = [[] for _ in self.image_ids]
+-        self.class_names = []
++        self.class_names = class_names
+         empty_images = []
+         for image_id, impath in enumerate(self.impaths):
+             with open(os.path.splitext(impath)[0] + '.bboxes.labels.tsv', 'rt') as labelfile:
+diff --git a/train.py b/train.py
+index 411bf7b..31c7453 100644
+--- a/train.py
++++ b/train.py
+@@ -142,15 +142,26 @@ def train(**kwargs):
+ 
+     opt._parse(kwargs)
+ 
++    # Loading class names from checkpoint, if available
++    # We need to load the checkpoint here 
++    if opt.load_path:
++        old_state = torch.load(opt.load_path)
++        class_names = old_state['class_names']
++        best_map = old_state['best_map']
++    else:
++        class_names = []
++        best_map = 0
++        old_state = None
++
+     print('load data')
+-    dataset = Dataset(opt)
++    dataset = Dataset(opt, class_names)
+     dataloader = data_.DataLoader(dataset, \
+                                   batch_size=1, \
+                                   shuffle=True, \
+                                   # pin_memory=True,
+                                   num_workers=opt.num_workers)
+-    
+-    testset = TestDataset(opt)
++
++    testset = TestDataset(opt, dataset.get_class_names())
+     test_dataloader = data_.DataLoader(testset, \
+                                        batch_size=1, \
+                                        num_workers=opt.test_num_workers,
+@@ -171,7 +182,7 @@ def train(**kwargs):
+ 
+     if opt.load_path:
+ 
+-        old_state = trainer.load(opt.load_path)
++        trainer.load(old_state)
+         print_log('load pretrained model from %s' % opt.load_path)
+ 
+     if opt.validate_only:
+@@ -182,7 +193,7 @@ def train(**kwargs):
+                 format(eval_result, num_eval_images, len(testset)))
+         return
+     
+-    if opt.load_path and 'epoch' in old_state.keys():
++    if old_state and 'epoch' in old_state.keys():
+ 
+         starting_epoch = old_state['epoch'] + 1
+         print_log('Model was trained until epoch {}, continuing with epoch {}'.format(old_state['epoch'], starting_epoch))
+@@ -191,7 +202,6 @@ def train(**kwargs):
+ 
+         starting_epoch = 0
+     
+-    best_map = 0
+     lr_ = opt.lr
+     global_step = 0
+ 
+@@ -267,7 +277,7 @@ def train(**kwargs):
+                 # trainer.vis.img('roi_cm', at.totensor(trainer.roi_cm.conf, False).float())
+                 
+             if (global_step) % opt.snapshot_every == 0:
+-                snapshot_path = trainer.save(epoch=epoch)
++                snapshot_path = trainer.save(epoch=epoch, class_names=testset.get_class_names())
+                 print_log("Snapshotted to {}".format(snapshot_path))
+ 
+         #snapshot_path = trainer.save(epoch=epoch)
+@@ -282,7 +292,7 @@ def train(**kwargs):
+         # TODO: this definitely is not good and will bias evaluation
+         if eval_result['map'] > best_map:
+             best_map = eval_result['map']
+-            best_path = trainer.save(best_map=eval_result['map'],epoch=epoch)
++            best_path = trainer.save(best_map=eval_result['map'],epoch=epoch, class_names=testset.get_class_names())
+             print_log("After epoch {}: snapshotted to {}".format(epoch, best_path))
+ 
+         del eval_result
+diff --git a/trainer.py b/trainer.py
+index b0e9714..ed22bd8 100644
+--- a/trainer.py
++++ b/trainer.py
+@@ -283,9 +283,7 @@ class FasterRCNNTrainer(nn.Module):
+         return save_path
+ 
+ 
+-    def load(self, path, load_optimizer=True, parse_opt=False, ):
+-
+-        state_dict = t.load(path)
++    def load(self, state_dict, load_optimizer=True, parse_opt=False, ):
+         if 'model' in state_dict:
+             self.faster_rcnn.load_state_dict(state_dict['model'])
+         else:  # legacy way, for backward compatibility
+-- 
+2.18.0
+
