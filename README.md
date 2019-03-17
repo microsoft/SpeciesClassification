@@ -9,6 +9,13 @@ This project contains the training code for the Microsoft AI for Earth Species C
 This repository is licensed with the [MIT license](https://github.com/Microsoft/dotnet/blob/master/LICENSE).
 
 
+## Third-party components
+
+The FasterRCNNDetection directory is based on [https://github.com/chenyuntc/simple-faster-rcnn-pytorch](https://github.com/chenyuntc/simple-faster-rcnn-pytorch).
+
+The PyTorchClassification directory is based on the [ImageNet example](https://github.com/pytorch/examples/blob/master/imagenet/main.py) from the PyTorch codebase.
+
+
 ## Contributing
 
 This project welcomes contributions and suggestions.  Most contributions require you to agree to a Contributor License Agreement (CLA) declaring that you have the right to, and actually do, grant us the rights to use your contribution. For details, visit [https://cla.microsoft.com](cla.microsoft.com).
