@@ -347,7 +347,7 @@ class JSONDataset(data.Dataset):
             # We cannot permute everything at once using numpy arrays as there are different dtype
             for tax_level in range(len(tax_assignments)):
                 tax_assignments[tax_level] = np.array(tax_assignments[tax_level])[cat_permutation]
-                # Also cut off the genus of the family name in iNat 2017
+                # Also cut off the genus of the family name
             if dataFormat2017 and isinstance(tax_assignments[1][0], str):
                 tax_assignments[1] = [ss.split(' ')[0] for ss in tax_assignments[1]]
                 tax_assignments[1] = np.array(tax_assignments[1])

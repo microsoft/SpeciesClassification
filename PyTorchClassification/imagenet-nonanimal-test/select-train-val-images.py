@@ -1,7 +1,6 @@
 import sys
-sys.path.append('/code/iNatAPI')
-sys.path.append('/code/iNatEnsemble')
-sys.path.append('/code/iNatFasterRCNN')
+sys.path.append('/code/DetectionClassificationAPI')
+sys.path.append('/code/FasterRCNNDetection')
 import numpy as np
 import os
 import tqdm

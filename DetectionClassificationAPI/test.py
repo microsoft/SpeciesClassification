@@ -2,11 +2,11 @@
 #
 # test.py
 #
-# Test driver for inatapi.py
+# Test driver for api.py
 #
 ################
 
-from inatapi import *
+from api import *
 
 def main():
 

@@ -6,7 +6,7 @@ import torch
 def main():
     # Output directory for all the models after successful training
     output_dir = 'result/serengeti'
-    # Paramas shared across all runs, e.g. the iNat directory
+    # Parameters shared across all runs, e.g. the image base directory
     shared_params = ['--data_root', '/data/serengeti/output_merged/',
                      '--train_file', 'train.json',
                      '--val_file', 'test.json',

@@ -48,29 +48,29 @@ You can refer to the instructions of the docker file `docker/Dockerfile` for mor
 
 # Download the base (vgg16) model file
 
-You want to run the following in the "iNatFasterRCNN" directory.
+You want to run the following in the "FasterRCNNDetection" directory.
 
     python misc/convert_caffe_pretrain.py && mv vgg16_caffe.pth data/
 
 
 # Build some native components
 
-Improves performance, not strictly necessary.  Run from the "iNatFasterRCNN" directory.
+Improves performance, not strictly necessary.  Run from the "FasterRCNNDetection" directory.
 
     conda install cython && cd model/utils/nms/ && python3 build.py build_ext --inplace
 
 # Running the training
 
-Afterwards, you can start the actual training. All available options are shown in `utils/config.py`. To start the iNat 2017 detector training, you can use
+Afterwards, you can start the actual training. All available options are shown in `utils/config.py`. To start the detector training, you can use
 
         python train.py train \
         --env='fasterrcnn-caffe' \
         --plot-every=100 \
         --caffe-pretrain  \
-        --inat_train_annotation='/data/data/iNat2017/train_2017_bboxes.json' \
-        --inat_val_annotation='/data/data/iNat2017/val_2017_bboxes.json' \
-        --inat_image_root='/data/data/iNat2017/' \
-        --dataset='inat-oneclass'
+        --train_annotation='train_bboxes.json' \
+        --val_annotation='/data/val_bboxes.json' \
+        --image_root='/data/' \
+        --dataset='oneclass'
 
 You move this command to a bash script. We provide a sample script `run_training.sh`, which can be used by executing:
 

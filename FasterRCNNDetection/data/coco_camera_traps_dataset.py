@@ -1,8 +1,8 @@
 ################
 #
-# iwildcam_dataset.py
+# coco_camera_traps_dataset.py
 #
-# Loader for the iWildCam detection data set.
+# Loader for the wildlife detection data set used to train the detector in the species classification API.
 #
 ################
 
@@ -12,11 +12,12 @@ import numpy as np
 import json
 from .util import read_image
 import PIL
+from utils.config import opt
 
 
 def load_taxonomy(ann_data, tax_levels, classes):
+    """ Loads taxonomy data and converts to ints """
 
-    # loads the taxonomy data and converts to ints
     taxonomy = {}
 
     if 'categories' in ann_data.keys():
@@ -41,8 +42,8 @@ def load_taxonomy(ann_data, tax_levels, classes):
     return taxonomy, classes_taxonomic
 
 
-class IWildCamBboxDataset:
-    """Bounding box dataset for iWildCam 2018.
+class CocoCameraTrapsBBoxDataset:
+    """Bounding box dataset
 
     The index corresponds to each image.
 
@@ -84,10 +85,10 @@ class IWildCamBboxDataset:
         root (string): path to folder, which contains train_val_images
         ann_file (string): path to file, which contains the bounding box 
             annotations
+
     """
     
     def __init__(self, root, ann_file, max_images=None):
-
         self.root = root
         print('Loading annotations from: ' + os.path.basename(ann_file))
         with open(ann_file) as data_file:
@@ -104,32 +105,27 @@ class IWildCamBboxDataset:
         # To speed up the loop, creating mapping for image_id to list index 
         image_id_to_idx = {id:idx for idx, id in enumerate(self.image_ids)}
         for ann in ann_data['annotations']:
-            idx = image_id_to_idx[ann['image_id']]
-            #check that the image contains an animal, if not, don't append a box or label to the
-            #image list
-            if 'bbox' in ann:
-
-                # Bboxes should have ('ymin', 'xmin', 'ymax', 'xmax') format
-                self.bboxes[idx].append([ann['bbox'][1], ann['bbox'][0],
+            idx = image_id_to_idx[ann['image_id']] 
+            # Bboxes should have ('ymin', 'xmin', 'ymax', 'xmax') format
+            self.bboxes[idx].append([ann['bbox'][1], ann['bbox'][0],
                                           ann['bbox'][1] + ann['bbox'][3],
                                           ann['bbox'][0] + ann['bbox'][2]])
-                # Currently we take the label from the annotation file, non-consecutive-
-                # label-support would be great
-                self.labels[idx].append(ann['category_id'])
-            else:
-                #self.bboxes[idx].append([-1.,-1.,0.,0.])
-                #self.labels[idx].append(30)
-         
-                self.bboxes[idx].append([])
-                self.labels[idx].append(30)
-
-        # load classes
-        self.classes = np.unique(sorted([cat['id'] for cat in ann_data['categories']]))
+            # Currently we take the label from the annotation file, non-consecutive-
+            # label-support would be great
+            self.labels[idx].append(ann['category_id'])
         
-        self.class_names = ['' for _ in range(self.get_class_count())]
-        
-        for cat in ann_data['categories']:    
-            self.class_names[cat['id']] = '{}'.format(cat['name'])
+        # load taxonomy
+        self.tax_levels = ['id', 'supercategory', 'name']
+        self.classes = np.unique([l for ll in self.labels for l in ll])
+        if opt.dataset == 'oneclass':
+            self.class_names = ['Animal']
+        else:
+            self.class_names = ['' for _ in range(self.get_class_count())]
+            for cat in ann_data['categories']:
+                self.class_names[cat['id']] = '{} / {}'.format(cat['supercategory'],
+                                                            cat['name'])
+        self.taxonomy, self.classes_taxonomic = load_taxonomy(ann_data, 
+                self.tax_levels, self.classes)
         
         # print out some stats
         print("The dataset has {} images containing {} classes".format(
@@ -143,9 +139,17 @@ class IWildCamBboxDataset:
             self.image_ids = self.image_ids[:max_images]
             self.bboxes = self.bboxes[:max_images]
             self.labels = self.labels[:max_images]
-                                      
+            
+        if opt.dataset == 'oneclass':
+            print('Merging all classes to one category')
+            for ll in self.labels:
+                for l_idx in range(len(ll)):
+                    ll[l_idx] = 0
+        
+                  
         # To make sure we loaded the bboxes correctly:        
-        # self.validate_bboxes()
+        #self.validate_bboxes()
+        #print("All checks passed")
             
 
     def __len__(self):
@@ -180,11 +184,12 @@ class IWildCamBboxDataset:
 
     def get_class_count(self):
 
-        # We have to add 1 as the framework assumes that labels start from 0
-        return np.max(self.classes).tolist() + 1
+        if opt.dataset == 'oneclass':
+            return 1
+        else:
+            # We have to add 1 as the framework assumes that labels start from 0
+            return np.max(self.classes).tolist() + 1
 
-    def find_files(self, str):
-        return range(0,len(self.impaths)), self.impaths.tolist()
 
     def get_example(self, i):
         """Returns the i-th example.
@@ -198,26 +203,20 @@ class IWildCamBboxDataset:
         Returns:
             tuple of an image in CHW format, bounding boxes in 
             ('ymin', 'xmin', 'ymax', 'xmax')  format, label as int32
-            starting from 0 and difficult_flag, which is always 0 in 
-            iNat 
+            starting from 0 and difficult_flag, which is usually 0.
+
         """
 
         img_file = os.path.join(self.root, self.impaths[i])
         img = read_image(img_file, color=True)
         
-        bboxes = self.bboxes[i]
-        labels = np.asarray(self.labels[i])
-        difficulties = [0 for _ in labels]
-        image_id = [self.image_ids[i]]
-        #print(bboxes)
+        bboxes = np.array(self.bboxes[i])
+        labels = np.array(self.labels[i])
+        difficulties = np.array([0 for _ in labels])
+        image_id = np.array([self.image_ids[i]])
+        
+        return img, bboxes, labels, difficulties, image_id
 
-        img = np.transpose(img,[1, 2, 0])
-        img = img/255
-
-        return img, bboxes, labels, difficulties, image_id, img_file
-
-    def get_files(self):
-        return self.impaths
     
     __getitem__ = get_example
     

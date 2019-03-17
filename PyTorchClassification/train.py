@@ -117,7 +117,7 @@ def main():
                         'matrix computed from the validation predictions.')
     parser.add_argument('--annotation_format', default='2017',
                         type=str, dest='year', metavar='VERSION', help='Version of the dataset format, 2017 or 2018. ' + \
-                        'See https://github.com/visipedia/inat_comp/tree/master/2017 for more details about the formatting. (default: 2017)')
+                        '')
     parser.add_argument('--train_file', default='trainval2017.json',
                         type=str, metavar='TRAIN_FILE', help='Name of the json file containing the training annotation ' + \
                         '(default: trainval2017.json). Should be located within the dataset root directory.')

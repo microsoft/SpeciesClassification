@@ -1,4 +1,4 @@
-# This script was used to create the extended iNat dataset.
+# This script was used to create the extended species classification dataset.
 
 import json
 import numpy as np
@@ -10,7 +10,7 @@ import tqdm
 import sys
 import shutil
 
-# Number of validation images per category in minival of iNat 2017
+# Number of validation images per category in minival
 AVG_VAL_IMAGES_PER_CAT = 95986.0/5089/10
 
 with open('./trainval_animals2017.json', 'rt') as jsfile:
@@ -22,7 +22,7 @@ OUTPUT_DIR = 'train_val_images'
 OUTPUT_TRAIN_JSON = 'tmp_train.json'
 OUTPUT_VAL_JSON = 'tmp_val.json'
 
-INPUT_ORIGINAL_INAT_IMG_DIR = 'source/inat/'
+INPUT_ORIGINAL_IMG_DIR = 'source/'
 # Two files listing animal names and the corresponding animal class
 # The animal name matches the folder name
 ANIMAL_NAMES_FILE = 'source/animal_name.txt'
@@ -32,8 +32,8 @@ def main():
     # Create output dir
     try:
         os.makedirs(OUTPUT_DIR)
-        for dd in glob.glob(INPUT_ORIGINAL_INAT_IMG_DIR+'/*/*'):
-            os.makedirs(os.path.join(OUTPUT_DIR, dd[len(INPUT_ORIGINAL_INAT_IMG_DIR):]))
+        for dd in glob.glob(INPUT_ORIGINAL_IMG_DIR+'/*/*'):
+            os.makedirs(os.path.join(OUTPUT_DIR, dd[len(INPUT_ORIGINAL_IMG_DIR):]))
     except:
         print('Output folder {} already exists.'.format(OUTPUT_DIR))
 
@@ -48,11 +48,11 @@ def main():
     add_new_categories(train_json, val_json, 'source/dogs_val/*', 999999, animal_to_class)
     #add_new_categories(train_json, val_json, 'train_val_images/nonanimal/*', 0)
 
-    # Add all iNat Images
-    inat_images = glob.glob(os.path.join(INPUT_ORIGINAL_INAT_IMG_DIR, '*', '*', '*'))
-    for im in tqdm.tqdm(inat_images):
+    # Add all species images
+    species_images = glob.glob(os.path.join(INPUT_ORIGINAL_IMG_DIR, '*', '*', '*'))
+    for im in tqdm.tqdm(species_images):
         source_file = os.path.abspath(im)
-        target_file = os.path.join(OUTPUT_DIR, im[len(INPUT_ORIGINAL_INAT_IMG_DIR):])
+        target_file = os.path.join(OUTPUT_DIR, im[len(INPUT_ORIGINAL_IMG_DIR):])
         os.symlink(source_file, target_file)
 
     # Finished, writing json
@@ -64,7 +64,7 @@ def main():
 
 def add_new_categories(train_js, val_js, folder, avg_val_images_per_cat, animal_to_class):
     # Adds new categories to the training and validation json
-    # train_js and val_js are json structure as used in iNat2017
+    # train_js and val_js are json structure 
     # Both json files should be identical except for the field 'images'
     # folder should be a glob pattern, e.g. 'myfolder/*'
     # we will derive the classnames from all immediate subdirectories

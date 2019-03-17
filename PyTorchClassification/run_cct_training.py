@@ -6,7 +6,7 @@ import torch
 def main():
     # Output directory for all the models after successful training
     output_dir = 'result/caltech_cameratrap2'
-    # Paramas shared across all runs, e.g. the iNat directory
+    # Parameters shared across all runs
     shared_params = ['--data_root', '/data/lila/caltech/batch_cropped_dataset/',
                      '--train_file', 'train.json',
                      '--val_file', 'test.json',

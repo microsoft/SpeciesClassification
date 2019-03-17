@@ -1,6 +1,6 @@
 ################
 #
-# inat_dataset.py
+# iwildcam_dataset.py
 #
 # Loader for the iWildCam detection data set.
 #
@@ -127,7 +127,7 @@ class IWildCamBboxDataset:
         # load classes
         self.classes = np.unique(sorted([cat['id'] for cat in ann_data['categories']]))
         
-        if opt.dataset == 'inat-oneclass':
+        if opt.dataset == 'oneclass':
             self.class_names = ['Animal']
         else:
             self.class_names = ['' for _ in range(self.get_class_count())]
@@ -148,7 +148,7 @@ class IWildCamBboxDataset:
             self.bboxes = self.bboxes[:max_images]
             self.labels = self.labels[:max_images]
             
-        if opt.dataset == 'inat-oneclass':
+        if opt.dataset == 'oneclass':
             print('Merging all classes to one category')
             for ll in self.labels:
                 for l_idx in range(len(ll)):
@@ -190,7 +190,7 @@ class IWildCamBboxDataset:
 
     def get_class_count(self):
 
-        if opt.dataset == 'inat-oneclass':
+        if opt.dataset == 'oneclass':
             return 1
         else:
             # We have to add 1 as the framework assumes that labels start from 0
@@ -209,8 +209,7 @@ class IWildCamBboxDataset:
         Returns:
             tuple of an image in CHW format, bounding boxes in 
             ('ymin', 'xmin', 'ymax', 'xmax')  format, label as int32
-            starting from 0 and difficult_flag, which is always 0 in 
-            iNat 
+            starting from 0 and difficult_flag, which is usually 0.
         """
 
         img_file = os.path.join(self.root, self.impaths[i])

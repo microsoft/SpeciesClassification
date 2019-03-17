@@ -19,17 +19,10 @@ IMAGENET_TRAIN_DIR = '/data/imagenet/val/'
 IMAGE_SIZE = 448
 MODEL_PATH = \
 '../models/resnext-448-bing-onevsall-78.2/model_best.pth.tar'
-#'../result/bing_model/resnext_448/model_best.pth.tar'
-#'../models/resnext-560-80.1/model_best.pth.tar'
-#'/code/iNatEnsemble/models/resnext-448-quick-animals-only/model_best.pth.tar'
-#'/code/iNatEnsemble/log/resnext101_Nov18_06-25-19_gpu0/model_best.pth.tar'
-#'/code/iNatEnsemble/models/resnext-448-quick-animals-w-nonanimals/model_best.pth.tar'
 PLOT_OUTFILE = 'result/bing_resnext448_onevsall'
 os.makedirs('result', exist_ok=True)
-#MODEL_PATH = '/datadrive/models/iNat/resnext-560-80.1/model_best.pth.tar'
-#PLOT_OUTFILE = 'result/softmax'
 NONANIMALS_IMAGELIST_FILE = 'imagenet-nonanimal-val.txt' #'imagenet_nonAnimals_animalIntent.tsv'
-INAT_ROOT_DIR = '/data/animals2/iNat2017_extended/'
+IMAGE_ROOT_DIR = '/data/animals2/species_extended/'
 NUM_IMAGE_SAMPLES = None
 
 assert os.path.isfile(MODEL_PATH)
@@ -43,8 +36,8 @@ def get_scores(model, pathlist):
     return resultlist
 
 # Load list of animal images, we assume that they are randomly sorted already
-animals_val_dataset = data_loader.JSONDataset(INAT_ROOT_DIR, os.path.join(INAT_ROOT_DIR, 'minival_animals2017.json'), [448], False, dataFormat2017=True)
-animal_images = [os.path.join(INAT_ROOT_DIR, impath) for impath in animals_val_dataset.imgs]
+animals_val_dataset = data_loader.JSONDataset(IMAGE_ROOT_DIR, os.path.join(IMAGE_ROOT_DIR, 'minival_animals2017.json'), [448], False, dataFormat2017=True)
+animal_images = [os.path.join(IMAGE_ROOT_DIR, impath) for impath in animals_val_dataset.imgs]
 #animal_images = np.loadtxt(ANIMALS_IMAGELIST_FILE, dtype=str, delimiter=',')[:len(nonanimal_scores)]
 if NUM_IMAGE_SAMPLES is not None:
     animal_scores = get_scores(model, random.sample(animal_images, NUM_IMAGE_SAMPLES))

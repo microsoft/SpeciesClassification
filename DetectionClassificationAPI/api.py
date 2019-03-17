@@ -1,8 +1,8 @@
 ################
 #
-# inatapi.py
+# api.py
 #
-# The external entry point for classification using the inat-trained species classifier and detector.
+# The external entry point for classification using the species classifier and detector.
 #
 ################
 
@@ -17,11 +17,11 @@ class PredictMode(Enum):
     classifyUsingDetect = 2  # Run the detector, and - if it produces a bounding box - use that box for classification
 
 
-class iNatResults():
+class SpeciesResults():
 
     def __init__(self):
 
-        super(iNatResults, self).__init__()
+        super(SpeciesResults, self).__init__()
 
         self.species = None
         self.species_scores = None
@@ -74,7 +74,7 @@ class DetectionClassificationAPI():
         Runs inference on a single PIL image.
         """
         
-        ret = iNatResults()
+        ret = SpeciesResults()
 
         classification_bboxes = []
         

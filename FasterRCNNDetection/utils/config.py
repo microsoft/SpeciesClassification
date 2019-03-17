@@ -6,13 +6,13 @@ from pprint import pprint
 # e.g. --voc-data-dir='./data/'
 
 class Config:
-    # either 'voc' or 'inat' or 'inat-oneclass' or 'vott' or 'iwildcam'
+    # Can be 'voc', 'multiclass', 'oneclass', 'vott', or 'iwildcam'
     dataset = 'vott' 
 
     # Not defined her, passed in via train.sh
-    inat_train_annotation = '' # .../iNat2017/train_2017_bboxes.json
-    inat_val_annotation = '' # ../iNat2017/val_2017_bboxes.json
-    inat_image_root = '' # ../iNat2017/images/
+    train_annotation = '' # ../train_bboxes.json
+    val_annotation = '' # ../val_bboxes.json
+    image_root = '' # ../images/
     voc_data_dir = '' # ../VOCdevkit/VOC2007/
     train_image_dir = '' # Only for VOTT format
     val_image_dir = '' # Only for VOTT format

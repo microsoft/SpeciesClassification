@@ -6,9 +6,9 @@ do
 --env='fasterrcnn-caffe' \
 --plot-every=100 \
 --caffe-pretrain  \
---inat_train_annotation='/data/data/iNat2017/train_2017_bboxes.json' \
---inat_val_annotation='/data/data/iNat2017/val_2017_bboxes.json' \
---inat_image_root='/data/data/iNat2017/' \
---dataset='inat-oneclass'  \
+--train_annotation='/data/train_bboxes.json' \
+--val_annotation='/data/val_bboxes.json' \
+--image_root='/data/' \
+--dataset='oneclass'  \
 --load_path=$checkp
 done

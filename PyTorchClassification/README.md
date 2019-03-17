@@ -4,7 +4,7 @@ This repository implements the training and testing of a PyTorch image classific
 
 Is also extends the original code with tensorboard-compatible logging, text-based logging, code backup, a meta-script for configuring the training of multiple models, export to the ONNX format, new loss functions, taxonomic label smoothing, and balanced sampling.
 
-The code is developed for reading datasets with a JSON-based annotation in the format of the [iNaturalist competition dataset](https://github.com/visipedia/inat_comp/tree/master/2017).
+The code is developed for reading datasets with a JSON-based annotation in COCO format.
 
 ## Installation
 We need a few libraries set up. You can either use docker or anaconda.
@@ -49,7 +49,7 @@ If you want to see tensorboard visualizations, then you need to install tensorbo
 
 ## Preparing the dataset
 
-The code expects the dataset to have a JSON-based annotation in the format of the [iNaturalist competition dataset](https://github.com/visipedia/inat_comp/tree/master/2017). Please refer to this repository for a guideline. 
+The code expects the dataset to have a JSON-based annotation in COCO format.
 
 ## Running the training
 

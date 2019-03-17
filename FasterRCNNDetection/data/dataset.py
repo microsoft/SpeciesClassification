@@ -124,8 +124,8 @@ class Dataset:
         self.opt = opt
         if opt.dataset == 'voc':
             self.db = VOCBboxDataset(opt.voc_data_dir)
-        elif opt.dataset in ['inat', 'inat-oneclass']:
-            self.db = INatBboxDataset(opt.inat_image_root, opt.inat_train_annotation)
+        elif opt.dataset in ['multiclass', 'oneclass']:
+            self.db = CocoCameraTrapsBboxDataset(opt.image_root, opt.train_annotation)
         elif opt.dataset == 'vott':
             self.db = VottBboxDataset(opt.train_image_dir, class_names)
         elif opt.dataset == 'seals':
@@ -169,8 +169,8 @@ class TestDataset:
         self.opt = opt
         if opt.dataset == 'voc':
           self.db = VOCBboxDataset(opt.voc_data_dir, split='test', use_difficult=use_difficult)
-        elif opt.dataset in ['inat', 'inat-oneclass']:
-          self.db = INatBboxDataset(opt.inat_image_root, opt.inat_val_annotation)
+        elif opt.dataset in ['multiclass', 'oneclass']:
+          self.db = CocoCameraTrapsBboxDatasetBboxDataset(opt.image_root, opt.val_annotation)
         elif opt.dataset == 'vott':
             self.db = VottBboxDataset(opt.val_image_dir, class_names)
         elif opt.dataset == 'seals':

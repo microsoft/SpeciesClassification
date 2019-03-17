@@ -1,4 +1,9 @@
-# This script was used to create the extended iNat dataset.
+#
+# convert_folders_to_coco_format.py
+#
+# Converts a data set in which class names are specified in folders to
+# a COCO-style .json file.
+#
 
 import json
 import numpy as np
@@ -13,7 +18,8 @@ import argparse
 
 
 def main():
-    parser = argparse.ArgumentParser('Script for converting a folder-based classification dataset into iNat 2017 format. ' + \
+
+    parser = argparse.ArgumentParser('Script for converting a folder-based classification dataset into COCO format. ' + \
                     'Your dataset should be organized by folder, e.g. you need a separate subfolder for each class and '+\
                     'within this folder should be all the images of the corresponding class.')
     parser.add_argument("input_directory", type=str, metavar='IMAGE_ROOT',
@@ -56,7 +62,8 @@ def main():
 
 def add_new_categories(train_js, val_js, folder, val_prob, OUTPUT_DIR):
     # Adds new categories to the training and validation json
-    # train_js and val_js are json structure as used in iNat2017
+    # train_js and val_js are json structure 
+    #
     # Both json files should be identical except for the field 'images'
     # folder should be a glob pattern, e.g. 'myfolder/*'
     # we will derive the classnames from all immediate subdirectories
@@ -142,4 +149,5 @@ def add_new_categories(train_js, val_js, folder, val_prob, OUTPUT_DIR):
 
 
 if __name__ == '__main__': 
+
     main()

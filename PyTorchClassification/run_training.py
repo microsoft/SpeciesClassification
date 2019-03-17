@@ -6,8 +6,8 @@ import torch
 def main():
     # Output directory for all the models after successful training
     output_dir = 'result/run1'
-    # Paramas shared across all runs, e.g. the iNat directory
-    shared_params = ['--data_root', '/data/animals2/iNat2017_extended/',
+    # Paramas shared across all runs, e.g. the image directory
+    shared_params = ['--data_root', '/data/animals2/species_extended/',
                      '--train_file', 'trainval_animalsExtended2017.json',
                      '--val_file', 'minival_animalsExtended2017.json',
                      '--label_smoothing', '0.15',

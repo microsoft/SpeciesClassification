@@ -300,10 +300,7 @@ class DistributedBalancedSampler(Sampler):
 
 class JSONDataset(data.Dataset):
     '''
-    Dataset class for loading JSON datasets, which use the annotation style of the iNaturalist competition.
-    Please refer to  https://github.com/visipedia/inat_comp/tree/master/2017 for the file layout.
-
-    The class supports the formatting of both the 2017 and the 2018 format.
+    Dataset class for loading JSON datasets, which use the COCO camera traps .json format.    
     '''
     def __init__(self, root, ann_file, image_sizes, is_train, dataFormat2017=False, multi_crop=False,
                  percentUse=100, bbox_predictions=None, label_smoothing=0, bg_classes = None):

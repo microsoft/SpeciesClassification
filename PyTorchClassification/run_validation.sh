@@ -1,4 +1,4 @@
-python train.py --data_root /data/animals2/iNat2017_extended/ \
+python train.py --data_root /data/animals2/species_extended/ \
 --model_type resnext101 \
 --image_size 560 \
 --resume models/resnext-560-80.1/model_best.pth.tar \

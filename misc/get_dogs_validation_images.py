@@ -9,12 +9,12 @@ import glob
 import os
 random.seed(0)
 
-# Number of validation images per category in minival of iNat 2017
+# Number of validation images per category in minival
 AVG_VAL_IMAGES_PER_CAT = 95986.0/5089/10
 
 valdata = np.loadtxt('./../imagenet/val.txt', delimiter=' ', dtype=str)
 synmapping = open('./../imagenet/classes.txt','rt').read().splitlines()
-classfolders = np.loadtxt('./iNat2017_extended/source/original_dog_names.txt',
+classfolders = np.loadtxt('./species_extended/source/original_dog_names.txt',
                           dtype=str, delimiter=',')
 
 for cf in classfolders:

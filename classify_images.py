@@ -2,11 +2,11 @@
 #
 # classify_images.py
 #
-# This is a test driver for running our classifiers and detectors trained on
-# iNaturalist data.  The script classifies one or more hard-coded image files.
+# This is a test driver for running our species classifiers and detectors.
+# The script classifies one or more hard-coded image files.
 #
 # Because the inference code has not been assembled into a formal package yet,
-# you should define INAT_API_ROOT to point to the base of our iNat repo.  This
+# you should define API_ROOT to point to the base of our repo.  This
 # will be added to your Python path later in the script.
 #
 # This script has two non-code dependencies:
@@ -27,10 +27,10 @@ import sys
 import os
 import pandas as pd
 
-# Directory to which you sync'd the iNat repo.  Probably the same
+# Directory to which you sync'd the repo.  Probably the same
 # directory this file lives in, but for portability, this file is set up to only
-# take dependencies on the iNat repo according to this constant.
-INAT_API_ROOT = r'd:\git\ai4edev\iNat'
+# take dependencies on the repo according to this constant.
+API_ROOT = r'd:\git\SpeciesClassification'
 
 # Path to taxa.csv, for latin --> common mapping
 #
@@ -49,7 +49,7 @@ CLASSIFICATION_MODEL_PATH = r"D:\temp\models\resnext-448-78.8\model_best.pth.tar
 # to disable detection
 DETECTION_MODEL_PATH = None
 
-SUBDIRS_TO_IMPORT = ['iNatAPI','iNatEnsemble','iNatFasterRCNN']    
+SUBDIRS_TO_IMPORT = ['DetectionClassificationAPI','FasterRCNNDetection','PyTorchClassification']    
    
 # This must be True if detection is enabled.  Classification can be run
 # on the CPU or GPU.
@@ -67,19 +67,19 @@ IMAGE_SIZES = [448]
 
 #%% Path setup to import the classification code
 
-if (not INAT_API_ROOT.lower() in map(str.lower,sys.path)):
+if (not API_ROOT.lower() in map(str.lower,sys.path)):
     
-    print("Adding {} to the python path".format(INAT_API_ROOT))
-    sys.path.insert(0,INAT_API_ROOT)
+    print("Adding {} to the python path".format(API_ROOT))
+    sys.path.insert(0,API_ROOT)
     for s in SUBDIRS_TO_IMPORT:
-        importPath = os.path.join(INAT_API_ROOT,s)
-        print("Adding {} to the python path".format(INAT_API_ROOT))    
+        importPath = os.path.join(API_ROOT,s)
+        print("Adding {} to the python path".format(API_ROOT))    
         sys.path.insert(0,importPath)    
 
 
 #%% Import classification modules
 
-import inatapi
+import api as speciesapi
 
 
 #%% Build Latin --> common mapping
@@ -147,7 +147,7 @@ if DETECTION_MODEL_PATH != None:
     assert os.path.isfile(DETECTION_MODEL_PATH)
 
 print("Loading model")
-model = inatapi.iNatAPI(CLASSIFICATION_MODEL_PATH, DETECTION_MODEL_PATH, IMAGE_SIZES, USE_GPU)
+model = speciesapi.DetectionClassificationAPI(CLASSIFICATION_MODEL_PATH, DETECTION_MODEL_PATH, IMAGE_SIZES, USE_GPU)
 print("Finished loading model")
 
 
@@ -162,7 +162,7 @@ for iImage,imageFileName in enumerate(IMAGES_TO_CLASSIFY):
     # def predict_image(self, image_path, topK=1, multiCrop=False, predict_mode=PredictMode.classifyUsingDetect):
     try:
         prediction = model.predict_image(imageFileName, topK=5, multiCrop=False, 
-                                             predict_mode=inatapi.PredictMode.classifyOnly)
+                                             predict_mode=speciesapi.PredictMode.classifyOnly)
     except Exception as e:
         print("Error classifying image {} ({}): {}".format(iImage,imageFileName,str(e)))
         continue
