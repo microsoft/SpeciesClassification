@@ -1,3 +1,9 @@
+#
+# classify_night_day.py
+#
+# Simple heuristics for determining whether a camera trap image is 
+# a day- or night-time image.
+#
 
 import os
 import numpy as np
@@ -7,13 +13,16 @@ import json
 from data.iwildcam_dataset import IWildCamBboxDataset
 
 def clasifyDayNightImage(img):
+
     m = np.mean(img, axis=(0,1)) # take the mean over the 2d image
-    s = np.std(m) # standard dev accross RGB
+    s = np.std(m) # standard dev across RGB
     isIR = (s < 1e-4) # if it is low, it's a grayscale image
 
     return isIR
 
+    
 def readImage(path):
+
     f = Image.open(path)
     img = f.convert('RGB')
     f.close()
@@ -22,6 +31,7 @@ def readImage(path):
 
     return img
 
+    
 def clasifyDayNight(imageDir, files):
 
     isIRs = {}
@@ -41,10 +51,10 @@ def clasifyDayNight(imageDir, files):
 
 if __name__ == '__main__':    
     
-    dataRoot = 'E:/Research/Images/CaltechCameraTraps/'
-    annFile = dataRoot + 'eccv_18_annotation_files/train_annotations.json'
-    dataDir = dataRoot + 'eccv_18_images_only/'
-    nightdayFile = 'eccv_18_train_nightday.json'
+    dataRoot = ''
+    annFile = dataRoot + ''
+    dataDir = dataRoot + ''
+    nightdayFile = ''
 
     data = IWildCamBboxDataset(dataDir, annFile)   
     files = data.get_files()
@@ -54,3 +64,4 @@ if __name__ == '__main__':
 
     with open(nightdayFile, 'w') as fp:
         json.dump(isNight, fp)
+        

@@ -1,3 +1,10 @@
+#
+# tf_detector.py
+#
+# Runs a TFODAPI detection model on one or more images.
+#
+
+
 #%% Constants, imports, environment
 
 import tensorflow as tf
@@ -182,8 +189,9 @@ def render_bounding_boxes(boxes,scores,classes,inputFileNames,outputFileNames=[]
 #%% Test driver
 
 def main():
+
     MODEL_FILE = r'.\frozen_inference_graph.pb'
-    TARGET_IMAGES = [r'E:\Research\Images\iNat2017\imagesCTNight\train_val_images\Mammalia\Acinonyx jubatus\1aac048a4b5fb9292bdcb593c75104bf.jpg']
+    TARGET_IMAGES = [r'img1.jpg',r'img2.jpg']
 
     # Load and run detector on target images
     detection_graph = load_model(MODEL_FILE)
@@ -209,4 +217,6 @@ def main():
 
 
 if __name__ == '__main__':
+
     main()
+    

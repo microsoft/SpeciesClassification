@@ -1,3 +1,8 @@
+#
+# CameraTrapAugmentation.py
+#
+# Experiments around transforming handheld images to look like camera trap images.
+#
 
 import numpy as np
 import skimage.io as io
@@ -9,25 +14,19 @@ import imutils
 import scipy.ndimage
 import time
 import humanfriendly
-
 import pickle
 
-from data.inat_dataset import INatBboxDataset
+from data.coco_camera_traps_dataset import CocoCameraTrapsBboxDataset
 from data.iwildcam_dataset import IWildCamBboxDataset
-
 from multiprocessing.pool import ThreadPool 
 
 import matplotlib.pyplot as plt
 plt.switch_backend('QT4Agg')
 
 import tf_detector
-
 import matplotlib.pyplot as plt
-
 import models
-
 import rgb_nir_loader
-
 import train
 
 def showImage(img, bboxes=None, bboxesGT=None, label=None):
@@ -59,6 +58,7 @@ def showImage(img, bboxes=None, bboxesGT=None, label=None):
     plt.show(block=False)
     plt.pause(1)
 
+    
 def blurAnimals(img, bboxes):
 
     size = int(np.ceil(15*np.random.rand()))
@@ -552,11 +552,10 @@ def mainAvgCameraTraps():
 
 def mainDisplayNightResults():
 
-    # iWildCam
-    dataRoot = 'E:/Research/Images/CaltechCameraTraps/'
-    annFile = dataRoot + 'eccv_18_annotation_files/cis_val_annotations.json'
-    dataDir = dataRoot + 'eccv_18_images_only/'
-    filePrefix = 'eccv_18_cis_val'
+    dataRoot = ''
+    annFile = dataRoot + 'annotations.json'
+    dataDir = dataRoot + 'images'
+    filePrefix = 'cameratraps'
 
     data = IWildCamBboxDataset(dataDir, annFile)   
 
@@ -620,8 +619,11 @@ def mainDisplayNightResults():
 
         showImage(img, [boxPred] if boxPred is not None else [], bboxes, str(j) + ' ' + str(iouPred))
 
+        
 if __name__ == '__main__':    
+
     #mainAvgCameraTraps()
     #mainSynth()
     mainDetect()
     #mainDisplayNightResults()
+    

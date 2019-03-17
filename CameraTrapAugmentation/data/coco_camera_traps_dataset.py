@@ -1,6 +1,6 @@
 ################
 #
-# inat_dataset.py
+# coco_camera_traps_dataset.py
 #
 # Loader for the wildlife detection data set used to train the detector in the species classification API.
 #
@@ -41,8 +41,8 @@ def load_taxonomy(ann_data, tax_levels, classes):
     return taxonomy, classes_taxonomic
 
 
-class INatBboxDataset:
-    """Bounding box dataset for iNaturalist 2017.
+class CocoCameraTrapsBboxDataset:
+    """Bounding box dataset 
 
     The index corresponds to each image.
 
@@ -202,8 +202,7 @@ class INatBboxDataset:
         Returns:
             tuple of an image in CHW format, bounding boxes in 
             ('ymin', 'xmin', 'ymax', 'xmax')  format, label as int32
-            starting from 0 and difficult_flag, which is always 0 in 
-            iNat 
+            starting from 0 and difficult_flag, which is usually 0.
 
         """
 
@@ -223,8 +222,7 @@ class INatBboxDataset:
         Returns:
             tuple of an image in CHW format, bounding boxes in 
             ('ymin', 'xmin', 'ymax', 'xmax')  format, label as int32
-            starting from 0 and difficult_flag, which is always 0 in 
-            iNat 
+            starting from 0 and difficult_flag, which is usually 0.
 
         """
 

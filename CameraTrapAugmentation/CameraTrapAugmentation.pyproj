@@ -25,7 +25,7 @@
     <Compile Include="classfy_night_day.py">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="data\inat_dataset.py" />
+    <Compile Include="data\coco_camera_traps_dataset.py" />
     <Compile Include="data\iwildcam_dataset.py" />
     <Compile Include="data\util.py" />
     <Compile Include="data\__init__.py" />

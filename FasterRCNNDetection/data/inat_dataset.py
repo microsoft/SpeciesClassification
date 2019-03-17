@@ -1,6 +1,6 @@
 ################
 #
-# inat_dataset.py
+# coco_camera_traps_dataset.py
 #
 # Loader for the wildlife detection data set used to train the detector in the species classification API.
 #

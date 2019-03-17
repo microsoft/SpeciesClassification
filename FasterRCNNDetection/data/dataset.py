@@ -3,13 +3,13 @@
 # dataset.py
 #
 # Base classes and utilities for loading training/test data.  The only data set relevant to the
-# species classification model is defined in inat_dataset; others are legacy code from the framework
-# or other data sets we load for other projects.
+# species classification model is defined in coco_camera_traps_dataset.py; others are legacy code from the 
+# framework or other data sets we load for other projects.
 #
 ################
 
 import torch as t
-from .inat_dataset import INatBboxDataset
+from .coco_camera_traps_dataset import CocoCameraTrapsBboxDataset
 from .voc_dataset import VOCBboxDataset
 from .vott_dataset import VottBboxDataset
 from .iwildcam_dataset import IWildCamBboxDataset

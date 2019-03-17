@@ -1,6 +1,6 @@
 ################
 #
-# inat_dataset.py
+# iwildcam_dataset.py
 #
 # Loader for the iWildCam detection data set.
 #
