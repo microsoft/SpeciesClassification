@@ -42,7 +42,7 @@ def load_taxonomy(ann_data, tax_levels, classes):
     return taxonomy, classes_taxonomic
 
 
-class CocoCameraTrapsBBoxDataset:
+class CocoCameraTrapsBboxDataset:
     """Bounding box dataset
 
     The index corresponds to each image.

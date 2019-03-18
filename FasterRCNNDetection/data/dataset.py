@@ -9,7 +9,7 @@
 ################
 
 import torch as t
-from .coco_camera_traps_dataset import CocoCameraTrapsBBoxDataset
+from .coco_camera_traps_dataset import CocoCameraTrapsBboxDataset
 from .voc_dataset import VOCBboxDataset
 from .vott_dataset import VottBboxDataset
 from .iwildcam_dataset import IWildCamBboxDataset
@@ -170,7 +170,7 @@ class TestDataset:
         if opt.dataset == 'voc':
           self.db = VOCBboxDataset(opt.voc_data_dir, split='test', use_difficult=use_difficult)
         elif opt.dataset in ['multiclass', 'oneclass']:
-          self.db = CocoCameraTrapsBboxDatasetBboxDataset(opt.image_root, opt.val_annotation)
+          self.db = CocoCameraTrapsBboxDataset(opt.image_root, opt.val_annotation)
         elif opt.dataset == 'vott':
             self.db = VottBboxDataset(opt.val_image_dir, class_names)
         elif opt.dataset == 'seals':
