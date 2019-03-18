@@ -213,7 +213,7 @@ def train(**kwargs):
         trainer.reset_meters()
         for ii, (img, bbox_, label_, scale) in tqdm(enumerate(dataloader), total=len(dataset)):
             global_step = global_step + 1
-            scale = at.scalar(scale)
+            scale = at.scalar(scale).item()
             if opt.use_cuda: 
                 img = img.cuda().float()
                 label = label_.float().cuda()

@@ -172,7 +172,7 @@ class FasterRCNNTrainer(nn.Module):
         if n_bbox == 0:
             gt_rpn_label = t.tensor([0 for i in range(anchor.shape[0])])
         # NOTE: default value of ignore_index is -100 ...
-        fg_bg_count = np.unique(gt_rpn_label, return_counts=True)[1][1:]
+        fg_bg_count = np.unique(gt_rpn_label.detach().cpu(), return_counts=True)[1][1:]
         if opt.reduce_bg_weight:
             # Reweight foreground / background for the case we couldn't sample identical numbers
             rpn_class_weights = 1.0 / fg_bg_count

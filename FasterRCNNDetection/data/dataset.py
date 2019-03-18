@@ -9,7 +9,7 @@
 ################
 
 import torch as t
-from .coco_camera_traps_dataset import CocoCameraTrapsBboxDataset
+from .coco_camera_traps_dataset import CocoCameraTrapsBBoxDataset
 from .voc_dataset import VOCBboxDataset
 from .vott_dataset import VottBboxDataset
 from .iwildcam_dataset import IWildCamBboxDataset
@@ -37,8 +37,8 @@ def pytorch_normalze(img):
     """
     normalize = tvtsf.Normalize(mean=[0.485, 0.456, 0.406],
                                 std=[0.229, 0.224, 0.225])
-    img = normalize(t.from_numpy(img))
-    return img.numpy()
+    img = normalize(t.from_numpy(img.astype(np.float32)))
+    return img.numpy().astype(np.float64)
 
 
 def caffe_normalize(img):
