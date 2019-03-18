@@ -28,7 +28,7 @@ RUN curl -o ~/miniconda.sh -O  https://repo.continuum.io/miniconda/Miniconda3-la
      /opt/conda/bin/conda install pytorch torchvision cuda91 -c pytorch && \
      /opt/conda/bin/conda clean -ya
 
-RUN /opt/conda/bin/pip install --no-cache-dir git+https://github.com/pytorch/tnt.git@master git+https://github.com/lanpa/tensorboard-pytorch
+RUN /opt/conda/bin/pip install --no-cache-dir git+https://github.com/pytorch/tnt.git@master tensorboardX
 
 ENV PATH /opt/conda/bin:$PATH
 # This must be done before pip so that requirements.txt is available
