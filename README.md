@@ -1,7 +1,9 @@
 
 ## Overview
 
-This project contains the training code for the Microsoft AI for Earth Species Classification API, along with the code for our [API demo page](http://aka.ms/speciesclassification).
+This project contains the training code for the Microsoft AI for Earth Species Classification API, along with the code for our [API demo page](http://aka.ms/speciesclassification).  This API classifies handheld photos of around 5000 plant and animal species.  There is also a pipeline included for training detectors, and an API layer that simplifies running inference with an existing model, either on whole images or on detected crops.
+
+The training data is not provided in this repo, so you can think of this repo as a set of tools for training fine-grained classifiers.  If you want lots of animal-related data to play around with, check out our open data repository at [lila.science](http://lila.science), including LILA's list of [other data sets](http://lila.science/otherdatasets) related to conservation.
 
 
 ## License
