@@ -157,7 +157,8 @@ class BCEWithLogitsLoss2(torch.nn.modules.loss._Loss):
         self.register_buffer('pos_weight', pos_weight)
 
     def forward(self, input, target):
-        return F.binary_cross_entropy_with_logits(input, target,
-                                                  self.weight,
-                                                  pos_weight=self.pos_weight,
+        return F.binary_cross_entropy_with_logits(input.double(), 
+                                                  target.double(),
+                                                  self.weight.double() if self.weight else self.weight,
+                                                  pos_weight=self.pos_weight.double() if self.pos_weight else self.pos_weight,
                                                   reduction='none').sum(1).mean()
