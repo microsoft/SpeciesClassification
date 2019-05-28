@@ -328,7 +328,7 @@ def main():
     if args.evaluate:
         # write predictions to file
         if args.save_preds:
-            prec1, prec3, prec5, preds, im_ids = validate(val_loader, model, criterion, 0, True)
+            prec1, prec3, prec5, preds, im_ids = validate(val_loader, model, criterion, 0, True, True)
             with open(args.save_preds_file, 'w') as opfile:
                 opfile.write('id,predicted\n')
                 for ii in range(len(im_ids)):
