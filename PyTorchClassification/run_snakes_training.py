@@ -45,6 +45,18 @@ def main():
                 '--fp16',
                 '--resume', get_best_model_path(output_dir, 'resnext_224_init')])
 
+    tags.append('resnext_448')
+    params.append(['--model_type', 'resnext101',
+                '--image_size', '448',
+                '--epochs', '80',
+                '--epoch_decay', '5',
+                '--lr_decay', '0.5',
+                '--lr', '0.01',
+                '--warm_up_iterations', '100',
+                '--batch_size', '64',
+                '--fp16',
+                '--resume', get_best_model_path(output_dir, 'resnext_224')])
+
     # Checking if everything is set up properly
     assert len(tags) == len(params)
 
