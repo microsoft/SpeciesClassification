@@ -327,14 +327,14 @@ class ClassificationModel(nn.Module):
         return self.model.forward(x)
 
 
-    def predict_image(self, path, topK=1, multiCrop=False, bboxes=None):
+    def predict_image(self, path, topK=1, multiCrop=False, bboxes=None, all=False):
 
         with torch.no_grad():
             imgIn = self.loader.load_image(path)
-            return self.predict_from_image(imgIn, topK, multiCrop, bboxes)
+            return self.predict_from_image(imgIn, topK, multiCrop, bboxes, all)
 
 
-    def predict_from_image(self, imgIn, topK=1, multiCrop=False, bboxes=None):
+    def predict_from_image(self, imgIn, topK=1, multiCrop=False, bboxes=None, all=False):
 
         with torch.no_grad():
             inputs = self.loader.process_image(imgIn, False, multiCrop, bboxes)
@@ -348,18 +348,19 @@ class ClassificationModel(nn.Module):
                     output = self.inference(input)
             output /= numCrops
 
-            ids, vals = self.get_preds(output, topK)
+            ids, vals = self.get_preds(output, topK, all)
             classes = []
             for id in ids[0,:]:
                 classes.append(self.classnames[id])
             return classes, vals[0,:]
 
 
-    def get_preds(self, output, topK=1):
+    def get_preds(self, output, topK=1, all=False):
 
         with torch.no_grad():
-            output = F.softmax(output, dim = 1)
-            pred_vals, pred_inds = output.data.topk(topK)
+            output = F.softmax(output, dim=1)
+            if all: pred_vals, pred_inds = output, torch.arange(output.numel()).unsqueeze(0)
+            else:   pred_vals, pred_inds = output.data.topk(topK)
 
             if (self.useGPU):
                 pred_inds = pred_inds.cpu().numpy().astype(np.int)
