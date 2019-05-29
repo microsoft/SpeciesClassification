@@ -1,5 +1,6 @@
 import imghdr
 import pandas as pd
+import numpy as np
 from pathlib import Path
 from tqdm import tqdm
 
@@ -29,6 +30,27 @@ class TestDataset(data.Dataset):
         imgs = self.loader.process_image(raw_image, is_train=False,
                                          multi_crop=True)
         return imgs, im_name
+
+
+def sort_columns(filename):
+    df = pd.read_csv(filename)
+    cols = df.columns.tolist()
+    cols = cols[:1] + sorted(cols[1:])
+    df = df.reindex(columns=cols)
+    df.to_csv(filename, index=False)
+    
+
+def fill_corrupted_files(filename, folder):
+    df = pd.read_csv(filename)
+    test_dir = Path(folder)
+    test_imgs = [path.name for path in test_dir.iterdir()]
+    corrupted_imgs = list(set(test_imgs) - set(df.filename))
+    
+    dummy_df = pd.DataFrame(np.ones((44, 45), dtype=np.float)/90, columns=df.columns[1:])
+    dummy_df.insert(loc=0, column='filename', value=corrupted_imgs)
+    
+    df = pd.concat([df, dummy_df])
+    df.to_csv(filename, index=False)
 
 
 def main():
@@ -72,4 +94,6 @@ def main():
 
 
 if __name__ == '__main__':
-    main()
+    # main()
+    sort_columns('test_result.csv')
+    fill_corrupted_files('test_result.csv', 'data/round1')
