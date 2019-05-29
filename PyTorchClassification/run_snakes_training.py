@@ -48,12 +48,13 @@ def main():
     tags.append('resnext_448')
     params.append(['--model_type', 'resnext101',
                 '--image_size', '448',
-                '--epochs', '80',
+                '--start_epoch', '0',
+                '--epochs', '30',
                 '--epoch_decay', '5',
-                '--lr_decay', '0.5',
-                '--lr', '0.01',
+                '--lr_decay', '0.75',
+                '--lr', '0.001',
                 '--warm_up_iterations', '100',
-                '--batch_size', '64',
+                '--batch_size', '32',
                 '--fp16',
                 '--resume', get_best_model_path(output_dir, 'resnext_224')])
 
