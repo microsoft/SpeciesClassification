@@ -33,13 +33,13 @@ class TestDataset(data.Dataset):
 
 def main():
     # create the test loader
-    test_folder = 'data/train/class-4'
+    test_folder = 'data/round1'
     test_data = TestDataset(test_folder, 224)
-    test_loader = data.DataLoader(test_data, batch_size=100, shuffle=False,
-                                  num_workers=4, pin_memory=True)
+    test_loader = data.DataLoader(test_data, batch_size=300, shuffle=False,
+                                  num_workers=8, pin_memory=True)
 
     # load the model
-    model_path = 'result/snakes/resnext_224_init/model_best.pth.tar'
+    model_path = 'result/snakes/resnext_224/model_best.pth.tar'
     model = get_model(model_path)
     model.eval()
 
