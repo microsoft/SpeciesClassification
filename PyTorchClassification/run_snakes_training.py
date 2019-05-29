@@ -10,9 +10,9 @@ def main():
     shared_params = ['--data_root', 'data',
                      '--train_file', 'train.json',
                      '--val_file', 'valid.json',
-                     '--print_freq', '100']
-                    #  '--label_smoothing', '0.15',
-                    #  '--use_onevsall_loss']
+                     '--print_freq', '100',
+                     '--label_smoothing', '0.15',
+                     '--use_onevsall_loss']
  
     # Name tags for the different models that we will train
     tags = []
@@ -24,23 +24,25 @@ def main():
     tags.append('resnext_224_init')
     params.append(['--model_type', 'resnext101', 
                 '--image_size', '224', 
-                '--epochs', '1', 
-                '--epoch_decay', '4', 
-                '--lr_decay', '0.1', 
+                '--epochs', '4', 
+                '--epoch_decay', '2', 
+                '--lr_decay', '0.5', 
                 '--lr', '0.01',
                 '--warm_up_iterations', '0',
                 '--train_logits_only', 
-                '--batch_size', '32'])
+                '--batch_size', '128',
+                '--fp16'])
 
     tags.append('resnext_224')
     params.append(['--model_type', 'resnext101', 
                 '--image_size', '224', 
-                '--epochs', '20', 
-                '--epoch_decay', '4', 
-                '--lr_decay', '0.05', 
+                '--epochs', '50', 
+                '--epoch_decay', '5', 
+                '--lr_decay', '0.5', 
                 '--lr', '0.01',
-                '--warm_up_iterations', '3200',
-                '--batch_size', '32',
+                '--warm_up_iterations', '50',
+                '--batch_size', '128',
+                '--fp16',
                 '--resume', get_best_model_path(output_dir, 'resnext_224_init')])
 
     # Checking if everything is set up properly
