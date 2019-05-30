@@ -94,6 +94,6 @@ def main():
 
 
 if __name__ == '__main__':
-    # main()
+    main()
     sort_columns('test_result.csv')
     fill_corrupted_files('test_result.csv', 'data/round1')

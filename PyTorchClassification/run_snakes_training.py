@@ -51,12 +51,49 @@ def main():
                 '--start_epoch', '0',
                 '--epochs', '30',
                 '--epoch_decay', '5',
-                '--lr_decay', '0.75',
-                '--lr', '0.001',
-                '--warm_up_iterations', '100',
+                '--lr_decay', '0.7',
+                '--lr', '0.005',
+                '--warm_up_iterations', '10',
                 '--batch_size', '32',
                 '--fp16',
                 '--resume', get_best_model_path(output_dir, 'resnext_224')])
+
+    # Inceptionv4
+    # tags.append('inc4_299_init')
+    # params.append(['--model_type', 'inceptionv4', 
+    #             '--image_size', '299', 
+    #             '--epochs', '4', 
+    #             '--epoch_decay', '2', 
+    #             '--lr_decay', '0.94', 
+    #             '--lr', '0.05',
+    #             '--warm_up_iterations', '0',
+    #             '--train_logits_only', 
+    #             '--batch_size', '128',
+    #             '--fp16'])
+
+    # tags.append('inc4_299')
+    # params.append(['--model_type', 'inceptionv4', 
+    #             '--image_size', '299', 
+    #             '--epochs', '25', 
+    #             '--epoch_decay', '4', 
+    #             '--lr_decay', '0.94', 
+    #             '--lr', '0.005',
+    #             '--warm_up_iterations', '10',
+    #             '--batch_size', '128',
+    #             '--fp16',
+    #             '--resume', get_best_model_path(output_dir, 'inc4_299_init')])
+
+    # tags.append('inc4_488')
+    # params.append(['--model_type', 'inceptionv4', 
+    #             '--image_size', '488', 
+    #             '--epochs', '50', 
+    #             '--epoch_decay', '4', 
+    #             '--lr_decay', '0.94', 
+    #             '--lr', '0.005',
+    #             '--warm_up_iterations', '20',
+    #             '--batch_size', '32',
+    #             '--fp16',
+    #             '--resume', get_best_model_path(output_dir, 'inc4_299')])
 
     # Checking if everything is set up properly
     assert len(tags) == len(params)
