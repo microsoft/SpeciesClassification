@@ -8,9 +8,10 @@ import torch.utils.data as data
 from data_loader import ImageLoader
 from models import *
 
+IMAGE_SIZES = 488
 
 def get_model(model_path):
-    return ClassificationModel(model_path, image_sizes=224, useGPU=True)
+    return ClassificationModel(model_path, image_sizes=IMAGE_SIZES, useGPU=True)
 
 
 class TestDataset(data.Dataset):
@@ -56,12 +57,12 @@ def fill_corrupted_files(filename, folder):
 def main():
     # create the test loader
     test_folder = 'data/round1'
-    test_data = TestDataset(test_folder, 224)
-    test_loader = data.DataLoader(test_data, batch_size=300, shuffle=False,
-                                  num_workers=8, pin_memory=True)
+    test_data = TestDataset(test_folder, IMAGE_SIZES)
+    test_loader = data.DataLoader(test_data, batch_size=180, shuffle=False,
+                                  num_workers=4, pin_memory=True)
 
     # load the model
-    model_path = 'result/snakes/resnext_224/model_best.pth.tar'
+    model_path = 'result/snakes/inc4_488/model_best.pth.tar'
     model = get_model(model_path)
     model.eval()
 
@@ -94,6 +95,10 @@ def main():
 
 
 if __name__ == '__main__':
+    print('Run the model on test set...\n\n')
     main()
+    print('Sorting the columns...\n\n')
     sort_columns('test_result.csv')
+    print('Filling in the corrupted images...\n\n')
     fill_corrupted_files('test_result.csv', 'data/round1')
+    print('Done!')
