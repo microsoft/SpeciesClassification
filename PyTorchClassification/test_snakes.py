@@ -9,6 +9,10 @@ from data_loader import ImageLoader
 from models import *
 
 IMAGE_SIZES = 488
+TEST_FOLDER = 'data/round1'
+MODEL_PATH = 'result/snakes/inc4_488/model_best.pth.tar'
+SAVE_TO = 'inc4_488_test_result.csv'
+
 
 def get_model(model_path):
     return ClassificationModel(model_path, image_sizes=IMAGE_SIZES, useGPU=True)
@@ -39,30 +43,31 @@ def sort_columns(filename):
     cols = cols[:1] + sorted(cols[1:])
     df = df.reindex(columns=cols)
     df.to_csv(filename, index=False)
-    
+
 
 def fill_corrupted_files(filename, folder):
     df = pd.read_csv(filename)
     test_dir = Path(folder)
     test_imgs = [path.name for path in test_dir.iterdir()]
     corrupted_imgs = list(set(test_imgs) - set(df.filename))
-    
-    dummy_df = pd.DataFrame(np.ones((44, 45), dtype=np.float)/90, columns=df.columns[1:])
+
+    dummy_df = pd.DataFrame(
+        np.ones((44, 45), dtype=np.float)/90, columns=df.columns[1:])
     dummy_df.insert(loc=0, column='filename', value=corrupted_imgs)
-    
+
     df = pd.concat([df, dummy_df])
     df.to_csv(filename, index=False)
 
 
 def main():
     # create the test loader
-    test_folder = 'data/round1'
+    test_folder = TEST_FOLDER
     test_data = TestDataset(test_folder, IMAGE_SIZES)
     test_loader = data.DataLoader(test_data, batch_size=180, shuffle=False,
                                   num_workers=4, pin_memory=True)
 
     # load the model
-    model_path = 'result/snakes/inc4_488/model_best.pth.tar'
+    model_path = 
     model = get_model(model_path)
     model.eval()
 
@@ -91,14 +96,14 @@ def main():
                            columns=['filename'] +
                            list(map(lambda x: x[1], sorted(classnames.items(),
                                                            key=lambda x: x[0]))))
-    test_df.to_csv('test_result.csv', index=False)
+    test_df.to_csv(SAVE_TO, index=False)
 
 
 if __name__ == '__main__':
     print('Run the model on test set...\n\n')
     main()
     print('Sorting the columns...\n\n')
-    sort_columns('test_result.csv')
+    sort_columns(SAVE_TO)
     print('Filling in the corrupted images...\n\n')
-    fill_corrupted_files('test_result.csv', 'data/round1')
+    fill_corrupted_files(SAVE_TO, 'data/round1')
     print('Done!')
