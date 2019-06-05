@@ -326,6 +326,7 @@ class JSONDataset(data.Dataset):
             will be unused.
         '''
         # load annotations
+        # import pdb; pdb.set_trace()
         print('Loading annotations from: ' + os.path.basename(ann_file))
         with open(ann_file) as data_file:
             ann_data = json.load(data_file)
@@ -343,7 +344,8 @@ class JSONDataset(data.Dataset):
 
         # load taxonomy
         if (dataFormat2017):
-            self.tax_levels = ['id', 'name', 'supercategory']
+            # self.tax_levels = ['id', 'name', 'supercategory']
+            self.tax_levels = ['id', 'name']
         else:
             self.tax_levels = ['id', 'genus', 'family', 'order', 'class', 'phylum', 'kingdom']
                                #8142, 4412,    1120,     273,     57,      25,       6
@@ -511,7 +513,6 @@ class JSONDataset(data.Dataset):
 
 
     def __getitem__(self, index):
-
         im_id = self.ids[index]
         species_id = self.targets[index]
 
