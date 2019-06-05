@@ -1,24 +1,38 @@
 import imghdr
-import pandas as pd
 import numpy as np
+import pandas as pd
+import torch
+import torch.utils.data as data
 from pathlib import Path
 from tqdm import tqdm
 
-import torch.utils.data as data
 from data_loader import ImageLoader
 from models import *
 
+# Input Image size to your model
 IMAGE_SIZES = 488
+# Folder containing the test images
 TEST_FOLDER = 'data/round1'
-MODEL_PATH = 'result/snakes/inc4_488/model_best.pth.tar'
+MODEL_PATH = 'result/snakes/inc4_488/model_best.pth.tar'   # Path to your best model
+# File to store submission results
 SAVE_TO = 'inc4_488_test_result.csv'
 
 
 def get_model(model_path):
-    return ClassificationModel(model_path, image_sizes=IMAGE_SIZES, useGPU=True)
+    '''Takes the model path and returns the model.'''
+    return ClassificationModel(
+        model_path, image_sizes=IMAGE_SIZES, useGPU=True)
 
 
 class TestDataset(data.Dataset):
+    '''
+    Filters the corrupted images and applies the validation transformation before
+    returning the images.
+    Input:
+        folder      - name of the test folder
+        image_sizes - input image size to the model
+    '''
+
     def __init__(self, folder, image_sizes):
         super().__init__()
         self.image_paths = [path for path in Path(folder).iterdir()
@@ -38,6 +52,7 @@ class TestDataset(data.Dataset):
 
 
 def sort_columns(filename):
+    '''Sorts the column names inplace, in alphabetic order as required by AICrowd.'''
     df = pd.read_csv(filename)
     cols = df.columns.tolist()
     cols = cols[:1] + sorted(cols[1:])
@@ -46,13 +61,14 @@ def sort_columns(filename):
 
 
 def fill_corrupted_files(filename, folder):
+    '''Adds the corrupted images to the submission file with random scores, as required by AICrowd.'''
     df = pd.read_csv(filename)
     test_dir = Path(folder)
     test_imgs = [path.name for path in test_dir.iterdir()]
     corrupted_imgs = list(set(test_imgs) - set(df.filename))
 
     dummy_df = pd.DataFrame(
-        np.ones((44, 45), dtype=np.float)/90, columns=df.columns[1:])
+        np.ones((44, 45), dtype=np.float) / 90, columns=df.columns[1:])
     dummy_df.insert(loc=0, column='filename', value=corrupted_imgs)
 
     df = pd.concat([df, dummy_df])
@@ -60,18 +76,20 @@ def fill_corrupted_files(filename, folder):
 
 
 def main():
-    # create the test loader
+    '''Create the submission file for `Snake Species Classification Challenge`.'''
+    # Create the test data loader
     test_folder = TEST_FOLDER
     test_data = TestDataset(test_folder, IMAGE_SIZES)
     test_loader = data.DataLoader(test_data, batch_size=180, shuffle=False,
                                   num_workers=4, pin_memory=True)
 
-    # load the model
-    model_path = 
+    # Load the model
+    model_path = MODEL_PATH
     model = get_model(model_path)
     model.eval()
 
     classnames = model.classnames
+    # Set the device to GPU
     device = torch.device('cuda')
 
     result = []
