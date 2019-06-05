@@ -1,4 +1,4 @@
-# Snake Species Identification Challenge
+<h1 align="center">Snake Species Identification Challenge</h1>
 
 <p align="center">
   <img src="nbs/0ea412abd5014df4ecacc804d5907cb0.jpg" alt="Opheodrys vernalis"/>
@@ -14,8 +14,11 @@ I got an F1-Score of `0.809` for `Inceptionv4` and `0.804` for `ResNext101`. I t
 by the two best models and was able to achieve an F1-Score of `0.846`.
 
 > Steps to replicate the results
+
+Follow the steps in the README.md to create the required docker or conda environment.  
+Download the data from [here](https://www.aicrowd.com/challenges/snake-species-identification-challenge/dataset_files) and store it inside data repository in the root directory.  
+
 ```
-# Download the data from [here](https://www.aicrowd.com/challenges/snake-species-identification-challenge/dataset_files) and store it inside data repository in the root directory
 cd {root}
 python folder_to_coco.py          # Creates the COCO annotation format for the dataset
 python run_snakes_training.py     # Trains the model for ResNext101 and Inceptionv4 architecture
