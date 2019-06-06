@@ -7,7 +7,7 @@ from pathlib import Path
 from tqdm import tqdm
 
 from data_loader import ImageLoader
-from models import *
+from models import ClassificationModel
 
 # Input Image size to your model
 IMAGE_SIZES = 488

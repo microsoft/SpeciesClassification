@@ -7,7 +7,7 @@ import torch
 def main():
     # Output directory for all the models after successful training
     output_dir = 'result/snakes'
-    # Paramas shared across all runs, e.g. the image directory
+    # Parameters shared across all runs, e.g. the image directory
     shared_params = ['--data_root', 'data',
                      '--train_file', 'train.json',
                      '--val_file', 'valid.json',

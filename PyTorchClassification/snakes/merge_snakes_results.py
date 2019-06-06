@@ -1,4 +1,3 @@
-import numpy as np
 import pandas as pd
 
 FILE1 = 'inc4_488_test_result.csv'
