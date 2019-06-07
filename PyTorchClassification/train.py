@@ -349,7 +349,7 @@ def main():
         return str(code).replace('\n','\n\t') #'```python\n' + str(code) + '\n```'
     writer.add_text('args/instance',to_md(args.__dict__), start_epoch*len(train_loader))
     print_log('Arguments / configuration: \n' + to_md(args.__dict__))
-    writer.add_text('train.py',to_md(open('train.py','rt').read()), start_epoch*len(train_loader))
+    writer.add_text('train.py',to_md(open(__file__,'rt').read()), start_epoch*len(train_loader))
 
     for epoch in range(start_epoch, args.epochs):
         writer.add_scalar('epoch', epoch, len(train_loader)*epoch)
