@@ -19,8 +19,8 @@ This approach yielded an F1 of `0.809` for `Inceptionv4` and `0.804` for `ResNex
 
 ## Steps to replicate the results
 
-- Follow the steps in [README.md](README.md) to create the required docker or conda environment.  
-- Download the training and test data from [here](https://www.aicrowd.com/challenges/snake-species-identification-challenge/dataset_files)
+- Follow the steps in [README.md](../README.md) to create the required docker or conda environment.  
+- Download the training and test data from [here](https://www.aicrowd.com/challenges/snake-species-identification-challenge/dataset_files).
 - Unzip the training and test zipfiles into a folder called "data" in the PyTorchClassification directory, or symlink a directory called `data` to point to your data directory.  When you unzip the training data, images should end up in `data/train` (e.g. `data/train/[class]/[filename].jpg`).  Test data should end up in `data/round1/[filename].jpg`.
 
 
@@ -28,10 +28,8 @@ This approach yielded an F1 of `0.809` for `Inceptionv4` and `0.804` for `ResNex
 
 ```
 # cd into the PyTorchClassification directory
-# Make sure this directory is also on your Python Path
-PYTHONPATH=${PYTHONPATH}$PWD:
-cd snakes
-python folder_to_coco.py          # Creates the COCO annotation format for the dataset
+python snakes/folder_to_coco.py   # Creates the COCO annotation format for the dataset
+cd ..
 python run_snakes_training.py     # Trains the model for ResNext101 and Inceptionv4 architectures
 python test_snakes.py             # Generates the prediction result on the test dataset
 python merge_snakes_results.py    # Merges the results by different models
