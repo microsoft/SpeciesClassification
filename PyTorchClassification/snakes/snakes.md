@@ -28,9 +28,8 @@ This approach yielded an F1 of `0.809` for `Inceptionv4` and `0.804` for `ResNex
 
 ```
 # cd into the PyTorchClassification directory
-python snakes/folder_to_coco.py   # Creates the COCO annotation format for the dataset
-cd ..
-python run_snakes_training.py     # Trains the model for ResNext101 and Inceptionv4 architectures
-python test_snakes.py             # Generates the prediction result on the test dataset
-python merge_snakes_results.py    # Merges the results by different models
+python snakes/folder_to_coco.py          # Creates the COCO annotation format for the dataset
+python run_snakes_training.py            # Trains both ResNext101 and Inceptionv4 architectures
+python snakes/test_snakes.py             # Generates predictions on the test dataset
+python snakes/merge_snakes_results.py    # Merges the results from the two different architectures
 ```
