@@ -9,11 +9,15 @@ from tqdm import tqdm
 from data_loader import ImageLoader
 from models import ClassificationModel
 
-# Input Image size to your model
+# Input image size to your model
 IMAGE_SIZES = 488
+
 # Folder containing the test images
 TEST_FOLDER = 'data/round1'
-MODEL_PATH = 'result/snakes/inc4_488/model_best.pth.tar'   # Path to your best model
+
+# Path to your best model
+MODEL_PATH = 'result/snakes/inc4_488/model_best.pth.tar'   
+
 # File to store submission results
 SAVE_TO = 'inc4_488_test_result.csv'
 
