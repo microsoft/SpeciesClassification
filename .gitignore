@@ -1,3 +1,6 @@
+PyTorchClassification/snakes/data
+PyTorchClassification/snakes/log
+
 # Byte-compiled / optimized / DLL files
 __pycache__/
 *.py[cod]

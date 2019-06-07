@@ -1,6 +1,7 @@
 import os
 import json
 import pandas as pd
+from pathlib import Path
 from PIL import Image
 from collections import defaultdict
 from random import random
@@ -43,7 +44,7 @@ def folder2coco(data_root, image_folder, map_file, pct=0.2):
 
     counter = 0
     # Enumerate across all the images and split them into train and valid set
-    for idx, species_dir in enumerate((os.path.join(data_root,image_folder)).iterdir()):
+    for idx, species_dir in enumerate(Path(os.path.join(data_root,image_folder)).iterdir()):
         train['categories'].append(
             {'id': idx, 'name': id2species[int(species_dir.stem.split('-')[-1])]})
         valid['categories'].append(
@@ -71,8 +72,8 @@ def main():
     '''Stores the COCO annotation inside the DATA_ROOT directory as train.json and valid.json.'''
     train, valid = folder2coco(DATA_ROOT, IMAGE_FOLDER, CLASS_MAPPER, SPLIT)
 
-    json.dump(train, (DATA_ROOT / 'train.json').open('wt', encoding='utf-8'))
-    json.dump(valid, (DATA_ROOT / 'valid.json').open('wt', encoding='utf-8'))
+    json.dump(train, Path(os.path.join(DATA_ROOT,'train.json')).open('wt', encoding='utf-8'))
+    json.dump(valid, Path(os.path.join(DATA_ROOT,'valid.json')).open('wt', encoding='utf-8'))
 
 
 if __name__ == '__main__':
