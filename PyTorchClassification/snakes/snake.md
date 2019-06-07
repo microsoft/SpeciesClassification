@@ -20,7 +20,9 @@ This approach yielded an F1 of `0.809` for `Inceptionv4` and `0.804` for `ResNex
 ## Steps to replicate the results
 
 - Follow the steps in [README.md](README.md) to create the required docker or conda environment.  
-- Download the data from [here](https://www.aicrowd.com/challenges/snake-species-identification-challenge/dataset_files) and store it inside data repository in the root directory.  
+- Download the training and test data from [here](https://www.aicrowd.com/challenges/snake-species-identification-challenge/dataset_files)
+- Unzip the training and test zipfiles into a folder called "data" in the PyTorchClassification directory, or symlink a directory called `data` to point to your data directory.  When you unzip the training data, images should end up in `data/train` (e.g. `data/train/[class]/[filename].jpg`).  Test data should end up in `data/round1/[filename].jpg`.
+
 
 - Run the following commands:
 

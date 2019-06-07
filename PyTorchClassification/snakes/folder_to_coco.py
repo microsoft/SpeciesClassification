@@ -1,19 +1,16 @@
+import os
 import json
 import pandas as pd
-from pathlib import Path
 from PIL import Image
 from collections import defaultdict
 from random import random
 
-
-cwd = Path.cwd()
-DATA = 'data'                           # Name of data directory
-FOLDER = 'train'                        # Name of the folder containing the images
-SPLIT = 0.2                             # Train / Validation split ratio
+DATA_ROOT = 'data'           # Name of data directory root, absolute or relative
+IMAGE_FOLDER = 'train'                  # Name of the folder containing the images, relative to DATA_ROOT
+SPLIT = 0.2                             # Train / validation split ratio
 CLASS_MAPPER = 'class_id_mapping.csv'   # class -> id mapper file
 
-
-def folder2coco(folder, map_file, pct=0.2):
+def folder2coco(data_root, image_folder, map_file, pct=0.2):
     '''
     Creates COCO data format to feed into the model.
     Inputs:
@@ -24,10 +21,8 @@ def folder2coco(folder, map_file, pct=0.2):
         train  - training dataset annotation in COCO format (dict)
         valid  - validation dataset annotation in COCO format (dict)
     '''
-    data_dir = cwd / DATA
-
     # Create class_id to species mapping
-    mapper = pd.read_csv(data_dir / map_file)
+    mapper = pd.read_csv(data_root / map_file)
     id2species = {
         idx: species for idx,
         species in zip(
@@ -48,7 +43,7 @@ def folder2coco(folder, map_file, pct=0.2):
 
     counter = 0
     # Enumerate across all the images and split them into train and valid set
-    for idx, species_dir in enumerate((data_dir / folder).iterdir()):
+    for idx, species_dir in enumerate((os.path.join(data_root,image_folder)).iterdir()):
         train['categories'].append(
             {'id': idx, 'name': id2species[int(species_dir.stem.split('-')[-1])]})
         valid['categories'].append(
@@ -60,7 +55,7 @@ def folder2coco(folder, map_file, pct=0.2):
                 coco['images'].append(
                     {
                         'id': counter,
-                        'file_name': f'/{folder}/{species_dir.name}/{image_path.name}',
+                        'file_name': f'/{image_folder}/{species_dir.name}/{image_path.name}',
                         'width': w,
                         'height': h})
                 coco['annotations'].append(
@@ -73,11 +68,11 @@ def folder2coco(folder, map_file, pct=0.2):
 
 
 def main():
-    '''Stores the COCO annotation inside the DATA directory as train.json and valid.json.'''
-    train, valid = folder2coco(FOLDER, CLASS_MAPPER, SPLIT)
+    '''Stores the COCO annotation inside the DATA_ROOT directory as train.json and valid.json.'''
+    train, valid = folder2coco(DATA_ROOT, IMAGE_FOLDER, CLASS_MAPPER, SPLIT)
 
-    json.dump(train, (cwd / DATA / 'train.json').open('wt', encoding='utf-8'))
-    json.dump(valid, (cwd / DATA / 'valid.json').open('wt', encoding='utf-8'))
+    json.dump(train, (DATA_ROOT / 'train.json').open('wt', encoding='utf-8'))
+    json.dump(valid, (DATA_ROOT / 'valid.json').open('wt', encoding='utf-8'))
 
 
 if __name__ == '__main__':
