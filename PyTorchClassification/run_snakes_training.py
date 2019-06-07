@@ -118,7 +118,7 @@ def main():
                             '-m', 'torch.distributed.launch',
                             '--nproc_per_node={}'.format(
                                 torch.cuda.device_count()),
-                            '../train.py']
+                            'train.py']
                            + param + shared_params + resume_param, check=True)
             assert os.path.isfile('model_best.pth.tar'), 'ERROR: The training did not produce model_best.pth.tar, ' + \
                                                          'You might need to adjust learning parameters.'
