@@ -27,9 +27,10 @@ This approach yielded an F1 of `0.809` for `Inceptionv4` and `0.804` for `ResNex
 - Run the following commands:
 
 ```
-cd {root}
-PYTHONPATH=${PYTHONPATH}:$PWD
-export PYTHONPATH
+# cd into the PyTorchClassification directory
+# Make sure this directory is also on your Python Path
+PYTHONPATH=${PYTHONPATH}$PWD:
+cd snakes
 python folder_to_coco.py          # Creates the COCO annotation format for the dataset
 python run_snakes_training.py     # Trains the model for ResNext101 and Inceptionv4 architectures
 python test_snakes.py             # Generates the prediction result on the test dataset

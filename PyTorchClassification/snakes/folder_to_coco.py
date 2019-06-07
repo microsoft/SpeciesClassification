@@ -8,7 +8,7 @@ from random import random
 DATA_ROOT = 'data'           # Name of data directory root, absolute or relative
 IMAGE_FOLDER = 'train'                  # Name of the folder containing the images, relative to DATA_ROOT
 SPLIT = 0.2                             # Train / validation split ratio
-CLASS_MAPPER = 'class_id_mapping.csv'   # class -> id mapper file
+CLASS_MAPPER = 'class_idx_mapping.csv'   # class -> id mapper file
 
 def folder2coco(data_root, image_folder, map_file, pct=0.2):
     '''
@@ -22,7 +22,7 @@ def folder2coco(data_root, image_folder, map_file, pct=0.2):
         valid  - validation dataset annotation in COCO format (dict)
     '''
     # Create class_id to species mapping
-    mapper = pd.read_csv(data_root / map_file)
+    mapper = pd.read_csv(os.path.join(data_root,map_file))
     id2species = {
         idx: species for idx,
         species in zip(
