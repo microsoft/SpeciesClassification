@@ -25,6 +25,11 @@ import collections
 import tqdm
 
 parser = argparse.ArgumentParser(description='Evaluation of the accuracy of an exported ONNX model.')
+parser.add_argument('--onnx_model',
+                type=str, metavar='ONNX_FILE', help='Path to the ONNX model. ')
+parser.add_argument('--model_input_size', type=int, help='Size of the input in pixels, default 224.', default=224)
+parser.add_argument('--resize_image_to', type=int, default=256, help='We will scale each input image to have the smaller side equal ' + \
+                    'to this value before cropping a square of shape model_input_size X model_input_size. default: 256')
 parser.add_argument('--data_root', required=True,
                 type=str, metavar='DATASET_ROOT', help='Path to the root directory of the dataset.')
 parser.add_argument('--val_file', default='minival2017.json',
@@ -36,14 +41,12 @@ args = parser.parse_args()
 
 TOP_K = 5
 
-IMAGE_FILENAME = '/data/images/lion.jpg'
-MODEL_FILENAME = 'exported_model.onnx'
-CLASSLIST_FILENAME = 'classlist.txt'
+MODEL_FILENAME = args.onnx_model
 
 # Target mean / std; should match the values used at training time
-MODEL_IMAGE_SIZE = 224
-MODEL_RESIZE_SIZE = 256
-OVERSIZE_FACTOR = 1.3
+MODEL_IMAGE_SIZE = args.model_input_size
+MODEL_RESIZE_SIZE = args.resize_image_to
+assert args.model_input_size <= args.resize_image_to
 
 #%% Load model
 model = onnx.load(MODEL_FILENAME)
@@ -129,15 +132,15 @@ def predict(im_path):
     #%% Print top K class names
 
     # Load class names
-    with codecs.open(CLASSLIST_FILENAME, "r",encoding='utf-8', errors='ignore') as f:
-        classes = f.readlines()
-    classes = [x.strip() for x in classes] 
-    assert len(classes) == len(outputs_softmax)
+    #with codecs.open(CLASSLIST_FILENAME, "r",encoding='utf-8', errors='ignore') as f:
+    #    classes = f.readlines()
+    #classes = [x.strip() for x in classes] 
+    #assert len(classes) == len(outputs_softmax)
 
     # Find top 5 probabilities
     topKIndices = np.argsort(outputs_softmax)[-TOP_K:].tolist()[::-1]
-    topKValues = [outputs_softmax[k] for k in topKIndices]
-    topKClassnames = itemgetter(*topKIndices)(classes)
+    #topKValues = [outputs_softmax[k] for k in topKIndices]
+    #topKClassnames = itemgetter(*topKIndices)(classes)
 
     #for iClass,n in enumerate(topKClassnames):
     #    print('{:>6.2%}: {:>4} {}'.format(topKValues[iClass],topKIndices[iClass],n))

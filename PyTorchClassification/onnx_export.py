@@ -5,8 +5,9 @@ import torch
 import data_loader
 
 class ModelWrapper(nn.Module):
-    def __init__(self, model, mean = 0.5, std = 0.5):
+    def __init__(self, model, mean = torch.cuda.FloatTensor([0.5]), std = torch.cuda.FloatTensor([0.5])):
         super(ModelWrapper, self).__init__()
+        self.max_val = torch.cuda.FloatTensor([255])
         self.model = model
         self.mean = mean
         self.std = std
@@ -14,7 +15,7 @@ class ModelWrapper(nn.Module):
 
     def forward(self, x):
         # Transform uint8 values to [-1, 1]
-        x = (x / 255 - self.mean) / self.std
+        x = (x / self.max_val - self.mean) / self.std
         x = self.model(x)
         x = self.softmax(x)
         return x
