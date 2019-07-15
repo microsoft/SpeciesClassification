@@ -49,7 +49,7 @@ def main():
                         ' (default: resnext101)')
     parser.add_argument('--image_size', default=224, nargs='+',
                         type=int, metavar='RESOLUTION', help='The side length of the CNN input image ' + \
-                        '(default: 448). For ensembles, provide one resolution for each network.')
+                        '(default: 224). For ensembles, provide one resolution for each network.')
     parser.add_argument('--epochs', default=200, 
                         type=int, metavar='N', help='Number of total epochs to run.')
     parser.add_argument('--start_epoch', default=None, 
@@ -328,8 +328,8 @@ def main():
     if args.evaluate:
         # write predictions to file
         if args.save_preds:
-            prec1, prec3, prec5, preds, im_ids = validate(val_loader, model, criterion, 0, True)
-            with open(args.op_file_name, 'w') as opfile:
+            prec1, prec3, prec5, preds, im_ids = validate(val_loader, model, criterion, 0, True, True)
+            with open(args.save_preds_file, 'w') as opfile:
                 opfile.write('id,predicted\n')
                 for ii in range(len(im_ids)):
                     opfile.write(str(im_ids[ii]) + ',' + ' '.join(str(x) for x in preds[ii,:]) + '\n')
@@ -349,7 +349,7 @@ def main():
         return str(code).replace('\n','\n\t') #'```python\n' + str(code) + '\n```'
     writer.add_text('args/instance',to_md(args.__dict__), start_epoch*len(train_loader))
     print_log('Arguments / configuration: \n' + to_md(args.__dict__))
-    writer.add_text('train.py',to_md(open('train.py','rt').read()), start_epoch*len(train_loader))
+    writer.add_text('train.py',to_md(open(__file__,'rt').read()), start_epoch*len(train_loader))
 
     for epoch in range(start_epoch, args.epochs):
         writer.add_scalar('epoch', epoch, len(train_loader)*epoch)
@@ -451,7 +451,7 @@ def train(train_loader, model, criterion, optimizer, epoch, param_copy = None):
 
         input = input.cuda()
 
-        target = target.cuda(async=True)
+        target = target.cuda()
         input_var = torch.autograd.Variable(input)
         target_var = torch.autograd.Variable(target)
 
@@ -543,7 +543,7 @@ def validate(val_loader, model, criterion, epoch, global_step, save_preds=False)
                     #output = torch.max(output, outputNew)
                 output /= len(inputIn)
 
-            target = target.cuda(async=True)
+            target = target.cuda()
             target_var = torch.autograd.Variable(target)
             loss = criterion(output, target_var)
 

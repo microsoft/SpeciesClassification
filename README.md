@@ -6,6 +6,16 @@ This project contains the training code for the Microsoft AI for Earth Species C
 The training data is not provided in this repo, so you can think of this repo as a set of tools for training fine-grained classifiers.  If you want lots of animal-related data to play around with, check out our open data repository at [lila.science](http://lila.science), including LILA's list of [other data sets](http://lila.science/otherdatasets) related to conservation.
 
 
+## Getting started
+
+See the [README](PyTorchClassification/README.md) in the `PyTorchClassification` directory to get started training your own classification models with this PyTorch-based framework.
+
+
+## And if you love snakes...
+
+This repo was also used as the basis for the winning entry in the first round of the [AIcrowd Snake Species Identification Challenge](https://aicrowd.com/challenges/snake-species-identification-challenge).  To replicate those results, see [snakes.md](PyTorchClassification/snakes/snakes.md).
+
+
 ## License
 
 This repository is licensed with the [MIT license](https://github.com/Microsoft/dotnet/blob/master/LICENSE).
