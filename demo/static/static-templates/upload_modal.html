@@ -1,0 +1,25 @@
+<!-- File upload Modal -->
+<div class="container">
+  <div class="modal fade" id="upload-modal" role="dialog">
+    <div class="modal-dialog modal-md upload-dialog">
+      <div class="modal-content upload-modal-content">
+        <div class="modal-header upload-modal-header">
+          <button type="button" class="close upload-close" data-dismiss="modal">&times;</button>
+        </div>
+        <div class="modal-body">
+          <input class="form-control" id="input-url" type="text" 
+          placeholder="Enter Image URL / browse" onclick="InputUrlClick(this)" />
+          <button type="button" class="btn btn-primary" id="browse-btn" onclick="BrowseBtnClick()">  
+                <i class="fa fa-folder-open browse-icon" aria-hidden="true"></i>Browse
+            </button>
+        </div>
+        <div class="modal-footer upload-modal-footer" style="margin: 0 auto; text-align:center">
+           
+            <button type="button" class="btn btn-primary" id="upload-predict-btn" onclick="UploadPredictBtnClick()"> 
+               Predict
+            </button>         
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

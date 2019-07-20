@@ -114,3 +114,8 @@ result/
 
 # vscode
 .vscode/
+
+# demo
+demo/static/animals
+demo/static/thumbnails
+demo/static/img
