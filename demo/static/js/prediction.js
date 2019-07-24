@@ -85,7 +85,8 @@ function PopulateModal(e, o) {
             void 0 !== this.species_common ? n = this.species_common : void 0 !== this.subspecies_common && (n = this.subspecies_common),
             void 0 !== this.subspecies && (r = this.subspecies);
             var a = $("#prediction-result" + ++i);
-            void 0 !== r && "" != r.trim() ? (bingURL = "https://bing.com/images/search?q=" + r.replace("_", "-"),
+            void 0 !== r && "" != r.trim() ? 
+            (bingURL = "https://bing.com/images/search?q=" + r.replace("_", "-"),
             a.find(".bing-URL-Link").on("click"),
             a.find(".bing-URL-Link").attr("href", bingURL),
             a.find(".bing-URL-Link").text(r)) : (a.find(".bing-URL-Link").off("click"),

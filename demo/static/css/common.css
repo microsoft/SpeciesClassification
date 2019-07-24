@@ -53,7 +53,10 @@ body {
 }
 
 #nav {
+    /*width: 95%;*/
+    /*background-color: #343a40!important;*/
     padding-left: 5px;
+    /*height:55px;*/
     color: white;
 }
 .navbar-toggler
@@ -102,6 +105,8 @@ body {
     margin-left: 4px;
     padding: 8px;
     font-size: 0.9em;
+    /*background-color: green;
+    border-color: green;*/
     color: white;
     border-radius: 0px;
     background-color: #6f6e6e;
@@ -121,13 +126,45 @@ body {
     padding-right: 25px;
     border-radius: 0;
 }
+/* landing page */
+.landing-pg-image {
+    background: url("../img/cheetah-737417_1920.jpg") no-repeat left center;
+    height: 65vh;
+    background-position: center;
+    background-size: cover;
+    width: 90%;
+    margin: 0 auto;
+    position: relative;
+    /*transform: scale(0.5);*/
+}
 
+@media only screen and (max-width: 479px) and (min-width: 0px) {
+    .landing-pg-image {
+        background: url("../img/cheetah-737417_1920.jpg") no-repeat;
+        height: 70vh;
+        background-size: cover;
+        margin: 0 auto;
+        position: relative;
+    }
+}
+
+.landing-pg-image .content {
+    position: absolute;
+    top: 50%;
+    width: auto;
+    background: white; /* Fallback color */
+    background: rgba(255, 255, 255, 0.7); /* Black background with 0.5 opacity */
+    color: black;
+    padding: 10px;
+    padding-right: 15px;
+}
 
 /* explore page */
 #gallery-items {
-    display: -ms-flexbox; 
+    /*overflow-y: scroll !important;*/
+    display: -ms-flexbox; /* IE10 */
     display: flex;
-    -ms-flex-wrap: wrap; 
+    -ms-flex-wrap: wrap; /* IE10 */
     flex-wrap: wrap;
     padding: 0 4px;
     height: 90% !important;
@@ -152,6 +189,21 @@ body {
     text-align: center;
 }
 
+.gallery-col-container {
+    max-width: 25%;
+    padding: 0 8px;
+}
+
+.img-container img {
+    vertical-align: middle;
+}
+
+@media(max-width: 500px) {
+.gallery-col-container {
+        max-width: 100%;
+    }
+}
+
 .img-container {
     position: relative;
     width: 100%;
@@ -171,7 +223,7 @@ body {
     cursor: pointer;
 }
 
-.div-center {
+.classify-container {
     transition: .5s ease;
     opacity: 0;
     position: absolute;
@@ -189,15 +241,18 @@ body {
     transform: scale(1.3);
 }
 
-.img-container:hover .div-center {
+.img-container:hover .classify-container {
     opacity: 1;
 }
 
 .text {
+    /*background-color: #4CAF50;*/
     color: white;
     font-size: 16px;
     padding: 10px 10px;
+    /*border-radius: 10px;*/
     cursor: pointer;
+    /*border-bottom: solid 1px;*/
 }
 
 .add-more-images {
@@ -271,6 +326,27 @@ body {
     padding-right: 5px;
 }
 
+#spinner {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    margin-left: -20px;
+    border: 8px solid #8a8484;
+    border-radius: 50%;
+    border-top: 8px solid #0467d1;
+    width: 55px;
+    height: 55px;
+    animation: spin 2s linear infinite;
+    -webkit-animation: spin 2s linear infinite;
+    -moz-animation: spin 2s linear infinite;
+    -ms-animation: spin 2s linear infinite;
+    -o-animation: spin 2s linear infinite;
+    z-index: 9000
+}
+@-moz-keyframes spin { 100% { -moz-transform: rotate(360deg); } }
+@-webkit-keyframes spin { 100% { -webkit-transform: rotate(360deg); } }
+@keyframes spin { 100% { -webkit-transform: rotate(360deg); transform:rotate(360deg); }}
+
 #overlay {
     position: relative;
     z-index: 5000
@@ -338,13 +414,14 @@ body {
     background-color: #0078D7;
     color: white;
     height: 30px;
+    /* margin-top: 5px; */
     border-radius: 3px;
     padding: 3px;
     width: 150px;
     cursor: pointer;
     margin-left:8px;
 }
-
+/* Responsive navigation menu (for mobile devices) */
 @media screen and (max-width: 800px) {
     .footer #load-more-images {
         float: none;

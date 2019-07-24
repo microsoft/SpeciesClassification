@@ -1,17 +1,15 @@
 import os
 import uuid
+import config
 from PIL import Image, ImageDraw
-from common_config import Common_config
 import base64
 from io import BytesIO
 
-config = Common_config()
-root_direc = config.get_root_path()
+root_dir = config.ROOT_PATH
+upload_dir = config.UPLOAD_PATH
 
 class Bbox:
-  
     def draw_bbox(self, data, file=None, file_path=None):     
-        
         img_path = ""
 
         if(len(data['bboxes']) > 0):
@@ -44,16 +42,15 @@ class Bbox:
         	draw.rectangle([(x0+i, y0+i),(x1+i,y1+i)], outline="red")
 
         new_file_name =  str(uuid.uuid4()) + "." + img_format
-        img_path = root_direc + "/static/upload/" + new_file_name
+        img_path = root_dir + upload_dir + new_file_name
         img.save(img_path, img_format)
 
         del draw
 
-        img_url = "/static/upload/" + new_file_name
+        img_url = upload_dir + new_file_name
         return img_url
 
     def get_bbox_coordinates(self,data):
-
         x_min = data['bboxes'][0]['x_min']
         y_min = data['bboxes'][0]['y_min']
         x_max = data['bboxes'][0]['x_max']
