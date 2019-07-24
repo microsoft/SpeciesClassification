@@ -6,7 +6,7 @@ import time
 import csv
 import pandas as pd
 import common
-import configparser
+import config
 import constant as c
 from common import*
 from PIL import Image, ImageFile
@@ -14,7 +14,7 @@ import imghdr
 
 static_dir = "static"
 
-root = os.getcwd()
+root = config.ROOT_PATH
 
 data_dir = os.path.join(root, static_dir, "data")
 animalimages_dir =  os.path.join(root, static_dir, "animals")
