@@ -15,9 +15,17 @@ The demo was tested on an Azure VM with the following configuration:
 * Size: Standard B2ms (2 vcpus, 8 GiB memory)
 
 
-### Clone the repository and add sample images
+### Clone the repository and update the config file
 
 - Clone the repository and copy the folder `demo` to your local machine or server
+- Open the file `demo/config.py`
+- Update the variable `ROOT_PATH` with the path to the demo on your local machine or server
+- Update the variable `BASE_URL` with the base URL for the API. Refer the API documentation for information 
+- Update the variable `SUBSCRIPTION_KEY` with your product / API key. Visit the [API home page](https://www.microsoft.com/en-us/ai/ai-for-earth-apis) for more information on how to request an API key
+
+
+### Add the sample images
+
 - Navigate to the folder `demo/static` and create a directory called `animals`
 - Inside the newly created directory `animals` add the sample images that you would like to be displayed in the demo site.
    The directory structure for the sample images should be as follows `animal_name > image.ext` as shown in the example below
@@ -27,18 +35,6 @@ The demo was tested on an Azure VM with the following configuration:
 <p><img src="sample_images_dir_structure.jpg" alt="sample images directory structure"/></p>
   
 - Next run the python code `demo/setup_sample_images.py`. This will rename the files/directories to remove invalid characters and also create a csv index file called `demo/static/data/updated_animal_list.csv`. The csv file contains the file paths and corresponding animal names (extracted from the directory names)
-
-
-
-
-### Update the config file
-
-- Open the file `demo/config.py`
-- Update the variable `ROOT_PATH` with the path to the demo on your local machine or server
-- Update the variable `BASE_URL` with the base URL for the API. Refer the API documentation for information 
-- Update the variable `SUBSCRIPTION_KEY` with your product / API key. Visit the [API home page](https://www.microsoft.com/en-us/ai/ai-for-earth-apis) for more information on how to request an API key
-
-
 
 ### Run the demo
 
