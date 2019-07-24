@@ -17,7 +17,7 @@ The demo was tested on an Azure VM with the following configuration:
 
 ### Clone the repository and add sample images
 
-- Clone the repository and copy the folder demo to your local machine or server
+- Clone the repository and copy the folder `demo` to your local machine or server
 - Navigate to the folder `demo/static` and create a directory called `animals`
 - Inside the newly created directory `animals` add the sample images that you would like to be displayed in the demo site.
    The directory structure for the sample images should be as follows `animal_name > image.ext` as shown in the example below
