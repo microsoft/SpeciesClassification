@@ -36,7 +36,7 @@ The demo was tested on an Azure VM with the following configuration:
 
 <p><img src="sample_images_dir_structure.jpg" alt="sample images directory structure"/></p>
   
-- Next run the python code `demo/setup_sample_images.py`. This will rename the files/directories to remove invalid characters and also create a csv index file called `demo/static/data/updated_animal_list.csv`. The csv file contains the file paths and corresponding animal names (extracted from the directory names)
+- Next run the python code `setup_sample_images.py` (demo/setup_sample_images.py). This will rename the files/directories to remove invalid characters and also create a csv index file called `demo/static/data/updated_animal_list.csv`. The csv file contains the file paths and corresponding animal names (extracted from the directory names)
 
 ### Run the demo
 
