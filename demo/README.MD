@@ -41,7 +41,7 @@ The demo was tested on an Azure VM with the following configuration:
   - Renames the files/directories to remove invalid characters.
   - Creates a csv index file called `demo/static/data/updated_animal_list.csv` - the csv file contains the file paths and      corresponding animal names. ( extracted from the directory names )
   - Creates a thumbnails folder from the provided images. ( resized images from the animals folder, these are the images
-  that are displayed on the site )
+  that are displayed on the site, while predicting the site will look up the corresponding image in the animals folder)
 
 ### Run the demo
 
