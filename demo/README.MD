@@ -7,7 +7,7 @@ This demo uses the AI for Earth Species Classification API, which identifies ove
 Visit the [API home page](https://www.microsoft.com/en-us/ai/ai-for-earth-apis) for more information or to request an API key. 
 The code used to train our model is available [here](https://github.com/Microsoft/SpeciesClassification).
 
-The live demo is avaiable at [aka.ms/speciesclassification](http://aka.ms/speciesclassification)
+You can view the live demo at [aka.ms/speciesclassification](http://aka.ms/speciesclassification)
 
 
 ## Setup Instructions
