@@ -31,7 +31,7 @@ The demo was tested on an Azure VM with the following configuration:
 * Inside the newly created directory `animals` add the sample images that you would like to be displayed in the demo site.
    The directory structure for the sample images should be as follows `animal_name > image.ext` as shown in the example below.  A minimum of 8 valid images (jpg or png) is required for the demo to work.
    
-<p style="margin-left:100px;"><img src="sample_images_dir_structure.jpg" alt="sample images directory structure"/></p>
+<p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<img src="sample_images_dir_structure.jpg" alt="sample images directory structure"/></p>
   
 * Next run the python code `setup_sample_images.py` (demo/setup_sample_images.py). 
   This script does the following:
