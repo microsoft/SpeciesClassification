@@ -20,10 +20,10 @@ The demo was tested on an Azure VM with the following configuration:
 ### Clone the repository and update the config file
 
 - Clone the repository and copy the folder `demo` to your local machine or server
-- Open the demo folder and open the config file `config.py` (demo/config.py)
-- Update the variable `ROOT_PATH` with the path to the demo on your local machine or server (e.g `/home/.../demo`)
-- Update the variable `BASE_URL` with the base URL for the API (e.g `https://api-base-url/`). Refer to the API documentation for information 
-- Update the variable `SUBSCRIPTION_KEY` with your product / API key. Visit the [API home page](https://www.microsoft.com/en-us/ai/ai-for-earth-apis) for more information on how to request an API key
+- Open the demo folder and update the following variables inside the `config.py` file (demo/config.py)
+   - Replace`ROOT_PATH` with the path to the demo on your local machine or server (e.g `/home/.../demo`)
+   - Update `BASE_URL` with the base URL for the API (e.g `https://[api-base-url]/`). Refer to the API documentation for          information 
+   - Update`SUBSCRIPTION_KEY` with your product / API key. Visit the [API home page](https://www.microsoft.com/en-us/ai/ai-for-earth-apis) for more information on how to request an API key
 
 
 ### Add the sample images
