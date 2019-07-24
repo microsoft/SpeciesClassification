@@ -20,7 +20,7 @@ The demo was tested on an Azure VM with the following configuration:
 ### Clone the repository and update the config file
 
 - Clone the repository and copy the folder `demo` to your local machine or server
-- Open the file `demo/config.py`
+- Open the demo folder and open the config file `config.py` (demo/config.py)
 - Update the variable `ROOT_PATH` with the path to the demo on your local machine or server (e.g `/home/.../demo`)
 - Update the variable `BASE_URL` with the base URL for the API (e.g `https://api-base-url/`). Refer to the API documentation for information 
 - Update the variable `SUBSCRIPTION_KEY` with your product / API key. Visit the [API home page](https://www.microsoft.com/en-us/ai/ai-for-earth-apis) for more information on how to request an API key
@@ -50,6 +50,6 @@ pip install pandas==0.24.2
 pip install Pillow==6.1.0
 ```
 
-- To start the demo run the code file `demo/app.py (python app.py)'
+- To start the demo run the code file `app.py`(demo/app.py) (python app.py)
 - In a browser navigate to `http://<your VM address>:5000`
 
