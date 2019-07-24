@@ -39,8 +39,9 @@ The demo was tested on an Azure VM with the following configuration:
 * Next run the python code `setup_sample_images.py` (demo/setup_sample_images.py). 
   This script does the following:
   - Renames the files/directories to remove invalid characters.
-  - Creates a csv index file called `demo/static/data/updated_animal_list.csv` - the csv file contains the file paths and      corresponding animal names. (extracted from the directory names)
-  - Creates a thumbnails folder from the provided images. (images from the animals folder reduced in size)
+  - Creates a csv index file called `demo/static/data/updated_animal_list.csv` - the csv file contains the file paths and      corresponding animal names. ( extracted from the directory names )
+  - Creates a thumbnails folder from the provided images. ( resized images from the animals folder, these are the images
+  that are displayed on the site )
 
 ### Run the demo
 
