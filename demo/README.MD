@@ -34,7 +34,9 @@ The demo was tested on an Azure VM with the following configuration:
 
 - Open the file `demo/config.py`
 - Update the variable `ROOT_PATH` with the path to the demo on your local machine or server
+- Update the variable `BASE_URL` with the base URL for the API. Refer the API documentation for information 
 - Update the variable `SUBSCRIPTION_KEY` with your product / API key. Visit the [API home page](https://www.microsoft.com/en-us/ai/ai-for-earth-apis) for more information on how to request an API key
+
 
 
 ### Run the demo
