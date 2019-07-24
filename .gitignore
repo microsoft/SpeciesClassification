@@ -119,3 +119,4 @@ result/
 demo/static/animals
 demo/static/thumbnails
 demo/static/img
+demo/config.py
