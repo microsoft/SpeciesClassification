@@ -28,19 +28,23 @@ The demo was tested on an Azure VM with the following configuration:
 
 ### Add the sample images
 
-- Navigate to the folder `demo/static` and create a directory called `animals`
-- Inside the newly created directory `animals` add the sample images that you would like to be displayed in the demo site.
+* Navigate to the folder `demo/static` and create a directory called `animals`
+* Inside the newly created directory `animals` add the sample images that you would like to be displayed in the demo site.
    The directory structure for the sample images should be as follows `animal_name > image.ext` as shown in the example below
    
    <b>Note: a minimum of 8 valid images (jpg or png) is required for the demo to work</b>
 
 <p><img src="sample_images_dir_structure.jpg" alt="sample images directory structure"/></p>
   
-- Next run the python code `setup_sample_images.py` (demo/setup_sample_images.py). This will rename the files/directories to remove invalid characters and also create a csv index file called `demo/static/data/updated_animal_list.csv`. The csv file contains the file paths and corresponding animal names (extracted from the directory names)
+* Next run the python code `setup_sample_images.py` (demo/setup_sample_images.py). 
+  This script does the following:
+  - Renames the files/directories to remove invalid characters.
+  - Creates a csv index file called `demo/static/data/updated_animal_list.csv` - the csv file contains the file paths and      corresponding animal names. (extracted from the directory names)
+  - Creates a thumbnails folder from the provided images. (images from the animals folder reduced in size)
 
 ### Run the demo
 
-- Install the following packages by running the commands listed below:
+* Install the following packages by running the commands listed below:
 
 ```
 pip install Flask==1.1.1
