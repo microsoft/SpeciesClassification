@@ -13,7 +13,7 @@ See the [README](PyTorchClassification/README.md) in the `PyTorchClassification`
 
 ## And if you love snakes...
 
-This repo was also used as the basis for the winning entry in the first round of the [AIcrowd Snake Species Identification Challenge](https://aicrowd.com/challenges/snake-species-identification-challenge).  To replicate those results, see [snakes.md](PyTorchClassification/snakes/snakes.md).
+This repo was also used as the basis for the winning entry in the first round of the [AIcrowd Snake Species Identification Challenge](https://www.aicrowd.com/challenges/snake-species-identification-challenge).  To replicate those results, see [snakes.md](PyTorchClassification/snakes/snakes.md).
 
 
 ## License
