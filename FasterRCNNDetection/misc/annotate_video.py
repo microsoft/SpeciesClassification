@@ -1,7 +1,7 @@
 import os
 import sys
 sys.path.append('./../')
-import api
+import detection_api
 import PIL
 import tqdm
 import glob
@@ -28,7 +28,7 @@ print('Extracting images from video...')
 subprocess.check_call(['ffmpeg', '-i', infile, '-qscale:v', '1', os.path.join(tmp_dir, 'frame%06d.jpg')])
 
 print('Loading model...')
-det = api.Detector(checkpoint, True, 2)
+det = detection_api.Detector(checkpoint, True, 2)
 all_images = list(sorted(glob.glob(tmp_dir + '/*.jpg')))
 print('Processing images...')
 for img_file in tqdm.tqdm(all_images, total=len(all_images)):

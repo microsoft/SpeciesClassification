@@ -71,9 +71,11 @@ if (not API_ROOT.lower() in map(str.lower,sys.path)):
     
     print("Adding {} to the python path".format(API_ROOT))
     sys.path.insert(0,API_ROOT)
-    for s in SUBDIRS_TO_IMPORT:
+
+for s in SUBDIRS_TO_IMPORT:
+    if (not s.lower() in map(str.lower,sys.path)):
         importPath = os.path.join(API_ROOT,s)
-        print("Adding {} to the python path".format(API_ROOT))    
+        print("Adding {} to the python path".format(importPath))
         sys.path.insert(0,importPath)    
 
 

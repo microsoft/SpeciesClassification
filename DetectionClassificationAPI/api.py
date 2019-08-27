@@ -8,7 +8,7 @@
 
 import PIL
 from models import *
-from api import *
+from detection_api import *
 
 class PredictMode(Enum):
 

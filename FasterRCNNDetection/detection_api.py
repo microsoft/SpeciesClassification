@@ -1,6 +1,6 @@
 ################
 #
-# api.py
+# detection_api.py
 #
 # Internal API for running the FasterRCNN framework for the wildlife classification project.
 #
