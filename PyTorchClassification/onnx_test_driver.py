@@ -31,9 +31,9 @@ from operator import itemgetter
 
 TOP_K = 5
 
-IMAGE_FILENAME = r"D:\temp\species_classification\190215-meer-full.jpg"
-MODEL_FILENAME = r"D:\temp\species_classification\sc_all_extended_ensemble_resnext_inceptionV4_560_2019.08.27_model.onnx"
-CLASSLIST_FILENAME = r"D:\temp\species_classification\sc_all_extended_ensemble_resnext_inceptionV4_560_2019.08.27_classes.txt"
+IMAGE_FILENAME = '/data/species_classification/190215-meer-full.jpg'
+MODEL_FILENAME = '/data/species_classification/sc_all_extended_ensemble_resnext_inceptionV4_560_2019.08.27_model.onnx'
+CLASSLIST_FILENAME = '/data/species_classification/sc_all_extended_ensemble_resnext_inceptionV4_560_2019.08.27_classes.txt'
 
 MODEL_IMAGE_SIZE = 224
 MODEL_RESIZE_SIZE = 256

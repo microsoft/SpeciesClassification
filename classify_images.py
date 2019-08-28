@@ -27,19 +27,19 @@ import pandas as pd
 # Directory to which you sync'd the repo.  Probably the same
 # directory this file lives in, but for portability, this file is set up to only
 # take dependencies on the repo according to this constant.
-API_ROOT = r'd:\git\SpeciesClassification'
+API_ROOT = r'/home/coyote/git/speciesclassification'
 
 # Path to taxa.csv, for latin --> common mapping
 #
 # Set to None to disable latin --> common mapping
-TAXONOMY_PATH = r'd:\temp\species_classification\taxa.19.08.28.0536.csv' # None
+TAXONOMY_PATH = r'/data/species_classification/taxa.19.08.28.0536.csv' # None
 
 IMAGES_TO_CLASSIFY = [
-        r"D:\temp\species_classification\190215-meer-full.jpg",
-        r"D:\temp\species_classification\African_Bush_Elephant.jpg"
+        '/data/species_classification/190215-meer-full.jpg',
+        '/data/species_classification\African_Bush_Elephant.jpg'
         ]
 
-CLASSIFICATION_MODEL_PATH = "D:\temp\species_classification\sc_all_extended_ensemble_resnext_inceptionV4_560_2019.08.27_model.pytorch"
+CLASSIFICATION_MODEL_PATH = '/data/species_classification/sc_all_extended_ensemble_resnext_inceptionV4_560_2019.08.27_model.pytorch'
 
 # Detection (i.e., bounding box generation) is optional; set to None 
 # to disable detection

@@ -27,7 +27,7 @@ def run_classification_model(model_path,image_path):
         print('%d) %s\tlikelihood: %f' % (i+1, species[i], vals[i]))
     
 
-#% Command-line driver
+#%% Command-line driver
     
 def main():
 
@@ -54,8 +54,8 @@ if False:
 
     #%%    
     
-    model_path = r"D:\temp\species_classification\sc_all_extended_ensemble_resnext_inceptionV4_560_2019.08.27_model.pytorch"
-    image_path = r"D:\temp\species_classification\190215-meer-full.jpg"
+    model_path = '/data/species_classification/sc_all_extended_ensemble_resnext_inceptionV4_560_2019.08.27_model.pytorch'
+    image_path = '/data/species_classification/190215-meer-full.jpg' # meerkat!
     run_classification_model(model_path,image_path)
     
     
