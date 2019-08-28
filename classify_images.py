@@ -35,8 +35,8 @@ API_ROOT = r'/home/coyote/git/speciesclassification'
 TAXONOMY_PATH = r'/data/species_classification/taxa.19.08.28.0536.csv' # None
 
 IMAGES_TO_CLASSIFY = [
-        '/data/species_classification/190215-meer-full.jpg',
-        '/data/species_classification\African_Bush_Elephant.jpg'
+        '/data/species_classification/coyote.jpg',
+        '/data/species_classification/190215-meer-full.jpg'
         ]
 
 CLASSIFICATION_MODEL_PATH = '/data/species_classification/sc_all_extended_ensemble_resnext_inceptionV4_560_2019.08.27_model.pytorch'
