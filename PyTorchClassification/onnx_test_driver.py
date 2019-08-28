@@ -1,17 +1,28 @@
-#%% Constants and imports
-
-# Note to self:
+###
+#
+# onnx_test_driver.py
+#
+# Example driver to run an image through the .onnx version of our species 
+# classification model.
+#
+# Installation notes:
+#
 # conda install pytorch-nightly -c pytorch
 # pip install future
 # pip install opencv-python
 # pip install onnx
-
+# pip install caffe2
+#
 # Useful links:
+#
 # https://caffe2.ai/docs/tutorial-loading-pre-trained-models.html
 # https://github.com/onnx/tutorials/blob/master/tutorials/OnnxCaffe2Import.ipynb
+#
+###
+
+#%% Constants and imports
 
 import cv2
-from caffe2.python import core, workspace
 import onnx
 import caffe2.python.onnx.backend
 import numpy as np
@@ -20,14 +31,14 @@ from operator import itemgetter
 
 TOP_K = 5
 
-IMAGE_FILENAME = '/data/images/lion.jpg'
-MODEL_FILENAME = '/data/models/exported_model.onnx'
-CLASSLIST_FILENAME = '/data/models/classlist.txt'
+IMAGE_FILENAME = r"D:\temp\species_classification\190215-meer-full.jpg"
+MODEL_FILENAME = r"D:\temp\species_classification\sc_all_extended_ensemble_resnext_inceptionV4_560_2019.08.27_model.onnx"
+CLASSLIST_FILENAME = r"D:\temp\species_classification\sc_all_extended_ensemble_resnext_inceptionV4_560_2019.08.27_classes.txt"
 
-# Target mean / std; should match the values used at training time
 MODEL_IMAGE_SIZE = 224
 MODEL_RESIZE_SIZE = 256
 OVERSIZE_FACTOR = 1.3
+
 
 #%% Load and prepare image (using cv2)
 
@@ -65,14 +76,18 @@ imgExpanded = np.expand_dims(imgFinal,0).astype('float32')
 
 # cv2.imshow('image',imgCropped); cv2.waitKey(0); cv2.destroyAllWindows()
 
+
 #%% Load model
+
 model = onnx.load(MODEL_FILENAME)
+
 
 #%% Run model
 
 # Run the ONNX model with Caffe2
 outputs = caffe2.python.onnx.backend.run_model(model, [imgExpanded])
 outputs_softmax = outputs[0][0].astype(np.float64)
+
 
 #%% Print top K class names
 
