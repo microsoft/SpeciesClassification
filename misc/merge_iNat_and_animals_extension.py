@@ -1,4 +1,7 @@
 import json
+import os
+
+os.chdir('/path/to/dataset/root/')
 
 def merge(input1, input2, output, old_new_mapping = [{}, {}]):
     print('mapping', len(old_new_mapping[0]), len(old_new_mapping[1]))
@@ -20,21 +23,22 @@ def merge(input1, input2, output, old_new_mapping = [{}, {}]):
             images_to_delete.add(js1['annotations'][ann_idx]['image_id'])
     for k,v in js1.items():
         print(k,len(v))
+    print('Going to delete {} images due to duplicate classes'.format(len(images_to_delete)))
     js1['images'] = [im for im in js1['images'] if im['id'] not in images_to_delete]
     js1['categories'] = [cat for cat in js1['categories'] if cat['id'] not in input1_class_blacklist]
-    js1['annotations'] = [ann for ann in js1['annotations'] if ann['category_id'] not in input1_class_blacklist]
+    js1['annotations'] = [ann for ann in js1['annotations'] if ann['image_id'] not in images_to_delete]
     for k,v in js1.items():
         print(k,len(v))
 
     # Renumber classes in input1
     max_class_id = -1
-    for new_id, old_id in enumerate(list(set([ann['category_id'] for ann in js1['annotations']]))):
+    for old_id in set([ann['category_id'] for ann in js1['annotations']]):
         if old_id not in old_new_mapping[0].keys():
             old_new_mapping[0][old_id] = max_class_id + 1
             max_class_id += 1
     for cat_idx in range(len(js1['categories'])):
         js1['categories'][cat_idx]['id'] = old_new_mapping[0][js1['categories'][cat_idx]['id']]
-    for ann_idx in range(len(js2['annotations'])):
+    for ann_idx in range(len(js1['annotations'])):
         js1['annotations'][ann_idx]['category_id'] = old_new_mapping[0][js1['annotations'][ann_idx]['category_id']]
 
     # Renumber classes in input2
