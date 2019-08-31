@@ -15,9 +15,6 @@
 # * a taxonomy file, so the scientific names used in the training data can
 #   be mapped to common names.
 #
-# We are currently testing against PyTorch 0.4.1 and Cuda 9.0, and we have tested on 
-# both Linux and Windows.
-#
 ####### 
 
 
@@ -30,20 +27,19 @@ import pandas as pd
 # Directory to which you sync'd the repo.  Probably the same
 # directory this file lives in, but for portability, this file is set up to only
 # take dependencies on the repo according to this constant.
-API_ROOT = r'd:\git\SpeciesClassification'
+API_ROOT = r'/home/coyote/git/speciesclassification'
 
 # Path to taxa.csv, for latin --> common mapping
 #
 # Set to None to disable latin --> common mapping
-TAXONOMY_PATH = r'd:\temp\taxa.csv' # None
+TAXONOMY_PATH = r'/data/species_classification/taxa.19.08.28.0536.csv' # None
 
 IMAGES_TO_CLASSIFY = [
-        r"D:\temp\animals\African_Elephant\30651.ngsversion.1421960098780.jpg",
-        r"D:\temp\animals\Alligator\Alligator_mississippiensis_01.JPG"
+        '/data/species_classification/coyote.jpg',
+        '/data/species_classification/190215-meer-full.jpg'
         ]
 
-# CLASSIFICATION_MODEL_PATH = r'd:\temp\models\inc4-incres2-560-78.5\model_deploy.pth.tar'
-CLASSIFICATION_MODEL_PATH = r"D:\temp\models\resnext-448-78.8\model_best.pth.tar"
+CLASSIFICATION_MODEL_PATH = '/data/species_classification/sc_all_extended_ensemble_resnext_inceptionV4_560_2019.08.27_model.pytorch'
 
 # Detection (i.e., bounding box generation) is optional; set to None 
 # to disable detection
@@ -61,8 +57,8 @@ USE_GPU = True
 # We typically specify [560,560] if we're loading our Inception/InceptionResnet 
 # ensemble. For ResNext, we typically specify [448].
 #
-# IMAGE_SIZES = [560, 560]
-IMAGE_SIZES = [448]
+IMAGE_SIZES = [560, 560]
+# IMAGE_SIZES = [448]
 
 
 #%% Path setup to import the classification code
