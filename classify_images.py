@@ -28,25 +28,38 @@ import pandas as pd
 # directory this file lives in, but for portability, this file is set up to only
 # take dependencies on the repo according to this constant.
 API_ROOT = r'/home/coyote/git/speciesclassification'
-
+SUBDIRS_TO_IMPORT = ['DetectionClassificationAPI','FasterRCNNDetection','PyTorchClassification']    
+   
 # Path to taxa.csv, for latin --> common mapping
 #
 # Set to None to disable latin --> common mapping
 TAXONOMY_PATH = r'/data/species_classification/taxa.19.08.28.0536.csv' # None
 
+# IMAGES_TO_CLASSIFY can be either an array of files or a single string; if
+# it's a string, it's assumed to point to a .csv file, in which each row is
+# [filename,description]
 IMAGES_TO_CLASSIFY = [
         '/data/species_classification/coyote.jpg',
-        '/data/species_classification/190215-meer-full.jpg'
+        '/data/species_classification/meerkat.jpg',
+        '/data/species_classification/elephant.jpg'
         ]
 
-CLASSIFICATION_MODEL_PATH = '/data/species_classification/sc_all_extended_ensemble_resnext_inceptionV4_560_2019.08.27_model.pytorch'
+IMAGES_TO_CLASSIFY = '/data/species_classification/animal_list.2018.10.23.12.58.16.csv'
+
+# When IMAGES_TO_CLASSIFY points to a .csv file, this will be prepended to all
+# filenames...
+IMAGES_TO_CLASSIFY_BASE = '/data/species_classification/sample_animals'
+
+# ...and classification results will be written here.
+CLASSIFICATION_OUTPUT_FILE = '/data/species_classification/classifications.csv'
+
+# The main .pytorch file
+CLASSIFICATION_MODEL_PATH = '/data/species_classification/sc_all_extended_ensemble_resnext_inceptionV4_560_2019.09.19_model.pytorch'
 
 # Detection (i.e., bounding box generation) is optional; set to None 
 # to disable detection
 DETECTION_MODEL_PATH = None
 
-SUBDIRS_TO_IMPORT = ['DetectionClassificationAPI','FasterRCNNDetection','PyTorchClassification']    
-   
 # This must be True if detection is enabled.  Classification can be run
 # on the CPU or GPU.
 USE_GPU = True
@@ -149,31 +162,97 @@ model = speciesapi.DetectionClassificationAPI(CLASSIFICATION_MODEL_PATH, DETECTI
 print("Finished loading model")
 
 
-#%% Classify images
+#%% Classify a hard-coded list of images
 
-nImages = len(IMAGES_TO_CLASSIFY)
-
-for iImage,imageFileName in enumerate(IMAGES_TO_CLASSIFY):
+if isinstance(IMAGES_TO_CLASSIFY,list):
     
-    print("Processing image {} of {}".format(iImage,nImages))
+    nImages = len(IMAGES_TO_CLASSIFY)
     
-    # def predict_image(self, image_path, topK=1, multiCrop=False, predict_mode=PredictMode.classifyUsingDetect):
-    try:
-        prediction = model.predict_image(imageFileName, topK=5, multiCrop=False, 
-                                             predict_mode=speciesapi.PredictMode.classifyOnly)
-    except Exception as e:
-        print("Error classifying image {} ({}): {}".format(iImage,imageFileName,str(e)))
-        continue
-
-    fn = os.path.splitext(imageFileName)[0]
-    
-    for i in range(0, len(prediction.species)):
-        latinName = prediction.species[i]
-        likelihood = prediction.species_scores[i]
-        commonName = doLatinToCommon(latinName)
-        print('"{}","{}","{}","{}","{}","{}"\n'.format(
-                iImage,fn,i,latinName,commonName,likelihood))
+    for iImage,imageFileName in enumerate(IMAGES_TO_CLASSIFY):
         
-print("Finished classifying {} images".format(nImages))
+        print("Processing image {} of {}".format(iImage,nImages))
+        
+        # def predict_image(self, image_path, topK=1, multiCrop=False, predict_mode=PredictMode.classifyUsingDetect):
+        try:
+            prediction = model.predict_image(imageFileName, topK=5, multiCrop=False, 
+                                                 predict_mode=speciesapi.PredictMode.classifyOnly)
+        except Exception as e:
+            print("Error classifying image {} ({}): {}".format(iImage,imageFileName,str(e)))
+            continue
+    
+        fn = os.path.splitext(imageFileName)[0]
+        
+        for i in range(0, len(prediction.species)):
+            latinName = prediction.species[i]
+            likelihood = prediction.species_scores[i]
+            commonName = doLatinToCommon(latinName)
+            print('"{}","{}","{}","{}","{}","{}"\n'.format(
+                    iImage,fn,i,latinName,commonName,likelihood))
+            
+    print("Finished classifying {} images".format(nImages))
 
 
+
+#%% Classify a filed-specified list of images
+
+else:
+    
+    #%%
+    
+    print("Reading image list file")
+    
+    # Read the image list file
+    imageList = pd.read_csv(IMAGES_TO_CLASSIFY)
+    nImages = len(imageList)
+    
+    print("Read {} image names".format(nImages))
+    
+    maxImages = -1
+    
+    nErrors = 0
+    
+    nImagesClassified = 0
+    
+    with open(CLASSIFICATION_OUTPUT_FILE,'w+') as f:
+        
+        for index, row in imageList.iterrows():
+            
+            print("Processing image {} of {}".format(index,nImages))
+            filename = row[0].replace('\\','/')
+            keyword = row[1]
+            
+            imagePath = os.path.join(IMAGES_TO_CLASSIFY_BASE,filename)
+        
+            # with torch.no_grad():
+            # print('Clasifying image {}'.format(imagePath))
+            # def predict_image(self, image_path, topK=1, multiCrop=False, predict_mode=PredictMode.classifyUsingDetect):
+            try:
+                prediction = model.predict_image(imagePath, topK=5, multiCrop=False, 
+                                                     predict_mode=speciesapi.PredictMode.classifyOnly)
+                nImagesClassified = nImagesClassified + 1
+                
+            except Exception as e:
+                print("Error classifying image {} ({}): {}".format(index,imagePath,str(e)))
+                nErrors = nErrors + 1
+                continue
+    
+            # print('Classified image {}'.format(imagePath))
+        
+            # print('\nSpecies \n')
+        
+            for i in range(0, len(prediction.species)):
+                latinName = prediction.species[i]
+                likelihood = prediction.species_scores[i]
+                commonName = doLatinToCommon(latinName)
+                # print('%d) %s (%s) likelihood: %f' % (i+1, latinName, commonName, likelihood))
+                f.write('"{}","{}","{}","{}","{}","{}","{}"\n'.format(
+                        index,filename,keyword,i,latinName,commonName,likelihood))
+                print('"{}","{}","{}","{}","{}","{}","{}"\n'.format(
+                        index,filename,keyword,i,latinName,commonName,likelihood))
+                
+            if maxImages > 0 and index >= maxImages:
+                break
+    
+    print("Finished classifying {} of {} images ({} errors)".format(nImagesClassified,nImages,nErrors))
+    
+    
