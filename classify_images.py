@@ -64,11 +64,11 @@ if True:
 
 CLASSIFICATION_OUTPUT_FILE = None
 
-if True:
+if False:
     CLASSIFICATION_MODEL_PATH = '/data/species_classification/sc_all_extended_ensemble_resnext_inceptionV4_560_2019.09.19_model.pytorch'
     CLASSIFICATION_OUTPUT_FILE = '/data/species_classification/classifications_sc_all_extended_ensemble_resnext_inceptionV4_560_2019.09.19_model.csv'
 
-if False:
+if True:
     CLASSIFICATION_MODEL_PATH = '/data/species_classification/inc4-incres2-560-78.5.model_deploy.pth.tar'
     CLASSIFICATION_OUTPUT_FILE = '/data/species_classification/classifications_inc4-incres2-560-78.5.csv'
     
@@ -266,5 +266,3 @@ if CLASSIFICATION_OUTPUT_FILE is not None:
     f.close()
     
 print("Finished classifying {} of {} images ({} errors)".format(nImagesClassified,nImages,nErrors))
-
-
