@@ -7,7 +7,9 @@ import os
 
 
 #%% Config
-INPUT_JSON = '/path/to/file.json'
+INPUT_JSON = '/data/animals2/iNat2017_extended/trainval_iNatAllExtended2017_V2.json'
+# If this is the JSON of iNat 2017, we can check if class names match with folder names
+INAT_CLASSNAME_CHECK = True
 
 #%% Load
 with open(INPUT_JSON, 'rt') as fi:
@@ -39,5 +41,13 @@ assert len(jfile['categories']) == len(all_cat_ids)
 for ann in jfile['annotations']:
     assert ann['image_id'] in all_image_ids, 'Annotation {} uses an invalid image ID of {}'.format(str(ann), ann['image_id'])
     assert ann['category_id'] in all_cat_ids, 'Annotation {} uses an invalid category ID of {}'.format(str(ann), ann['category_id'])
+
+#%% iNat: check if class names match the folder name
+cat_id_to_name = {cat['id']:cat['name'].replace(' × ', ' ').replace(' ×',' ') for cat in jfile['categories']}
+img_id_to_path = {im['id']:im['file_name'].replace('  ', ' ') for im in jfile['images']}
+for idx in range(len(jfile['annotations'])):
+    assert cat_id_to_name[jfile['annotations'][idx]['category_id']] \
+                    in img_id_to_path[jfile['annotations'][idx]['image_id']]
+
 
 print('All seems good!')
