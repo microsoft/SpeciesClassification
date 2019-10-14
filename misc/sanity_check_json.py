@@ -7,7 +7,7 @@ import os
 
 
 #%% Config
-INPUT_JSON = '/data/animals2/iNat2017_extended/trainval_iNatAllExtended2017_V2.json'
+INPUT_JSON = '/path/to/file.json'
 # If this is the JSON of iNat 2017, we can check if class names match with folder names
 INAT_CLASSNAME_CHECK = True
 
