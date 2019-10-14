@@ -323,17 +323,39 @@ class ClassificationModel(nn.Module):
         return self.model.forward(x)
 
 
-    def predict_image(self, path, topK=1, multiCrop=False, bboxes=None, all=False):
+    def predict_image(self, path, topK=1, multiCrop=False, bboxes=None, all=False, noCrop=True):
+        '''
+        Model inference with a single image.
+
+        Arguments:
+            imgIn:               Path to input image
+            topK (optional):     Number of predictions per image
+            multiCrop (optional):If True, uses 12 crops to compute an average predictions over all crops
+            bboxes (optional):   Bounding boxes for the foreground object
+            all (optional):      If True, the scores for all classes are returned
+            noCrop (optional):   Disables cropping of the input image before inference
+        '''
 
         with torch.no_grad():
             imgIn = self.loader.load_image(path)
-            return self.predict_from_image(imgIn, topK, multiCrop, bboxes, all)
+            return self.predict_from_image(imgIn, topK, multiCrop, bboxes, all, noCrop)
 
 
-    def predict_from_image(self, imgIn, topK=1, multiCrop=False, bboxes=None, all=False):
+    def predict_from_image(self, imgIn, topK=1, multiCrop=False, bboxes=None, all=False, noCrop=True):
+        '''
+        Model inference with a single image.
+
+        Arguments:
+            imgIn:               input PIL image
+            topK (optional):     Number of predictions per image
+            multiCrop (optional):If True, uses 12 crops to compute an average predictions over all crops
+            bboxes (optional):   Bounding boxes for the foreground object
+            all (optional):      If True, the scores for all classes are returned
+            noCrop (optional):   Disables cropping of the input image before inference
+        '''
 
         with torch.no_grad():
-            inputs = self.loader.process_image(imgIn, False, multiCrop, bboxes)
+            inputs = self.loader.process_image(imgIn, False, multi_crop=multiCrop, bboxes=bboxes, no_crop=noCrop)
             numCrops = len(inputs)
             for i in range(0, numCrops):
                 input = torch.Tensor(inputs[i])

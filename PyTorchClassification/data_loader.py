@@ -166,12 +166,24 @@ class ImageLoader():
         img =  Image.open(path).convert('RGB')
         return img
 
-    def process_image(self, img, is_train, multi_crop = False, bboxes = None, showImage = False):
+    def process_image(self, img, is_train, multi_crop = False, bboxes = None, no_crop=False):
+        '''
+        Pre-processing of the images
+        Arguments:
+            img:                    single input image (PIL)
+            is_train:               True for training mode, false for validation/testing mode
+            multi_crop (optional):  If True, uses 12 crops in validation
+            bboxes (optional):      Bounding boxes of the foreground object
+            no_crop (optional):     If True, skips cropping in in both training and validation
+        '''
         if bboxes is None:
             bboxes = []
         # In training, random scaling, flipping, and color augmentation
         if is_train:
-            img = self.scale_aug(img)
+            if no_crop:
+                img = self.resize(img)
+            else:
+                img = self.scale_aug(img)
             img = self.flip_aug(img)
             img = self.color_aug(img)
             img = self.tensor_aug(img)
@@ -180,10 +192,13 @@ class ImageLoader():
         # In validation
         else:
             # We will collect all crops of the image in *imgs*
-            min_size = min(img.size)
-            scale_ratio = min(self.im_size) / min_size * 1.3
-            resized_img = F.resize(img, (int(img.size[1]*scale_ratio), int(img.size[0]*scale_ratio)))
-            imgs = [self.center_crop(resized_img)]
+            if no_crop:
+                imgs = [self.resize(img)]
+            else:
+                min_size = min(img.size)
+                scale_ratio = min(self.im_size) / min_size * 1.3
+                resized_img = F.resize(img, (int(img.size[1]*scale_ratio), int(img.size[0]*scale_ratio)))
+                imgs = [self.center_crop(resized_img)]
 
             # Add all bboxes and their flip
             for bbox in bboxes:
@@ -344,8 +359,8 @@ class JSONDataset(data.Dataset):
 
         # load taxonomy
         if (dataFormat2017):
-            # self.tax_levels = ['id', 'name', 'supercategory']
-            self.tax_levels = ['id', 'name']
+            self.tax_levels = ['id', 'name', 'supercategory']
+            #self.tax_levels = ['id', 'name']
             if label_smoothing > 0:
                 assert len(self.tax_levels) == 3, "Please comment in the line above to include the taxonomy " + \
                     "level 'supercategory' in order for label smoothing to work. It should look like this: " + \
