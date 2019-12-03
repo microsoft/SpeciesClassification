@@ -10,8 +10,7 @@ def main():
     shared_params = ['--data_root', '/data/animals2/species_extended/',
                      '--train_file', 'trainval_animalsExtended2017.json',
                      '--val_file', 'minival_animalsExtended2017.json',
-                     '--label_smoothing', '0.15',
-                     '--use_onevsall_loss']
+                     '--label_smoothing', '0.15']
     # Name tags for the different models that we will train
     tags = []
     # The run specific parameters, should correspond to the order in TAGS
@@ -23,6 +22,8 @@ def main():
     # For multiple GPUs,, you might want to divide learning rate
     # and batch size by the number of GPUs and enable --sync_bn for 
     # identical results
+
+    # For the best results with ResNeXt, train this setting on a machine with only one GPU
     tags.append('resnext_448_init')
     params.append(['--model_type', 'resnext101', 
                 '--image_size', '448', 
@@ -32,7 +33,8 @@ def main():
                 '--lr', '0.01',
                 '--warm_up_iterations', '0',
                 '--train_logits_only', 
-                '--batch_size', '16'])
+                '--batch_size', '16',
+                '--use_onevsall_loss'])
 
     tags.append('resnext_448')
     params.append(['--model_type', 'resnext101',
@@ -43,9 +45,11 @@ def main():
                 '--lr', '0.01',
                 '--batch_size', '16',
                 '--warm_up_iterations', '3200',
+                '--use_onevsall_loss',
                 '--resume', get_best_model_path(output_dir, 'resnext_448_init')])
 
     ### Inception V4 224px training
+    '''
     tags.append('inc4_299_init')
     params.append(['--model_type', 'inceptionv4',
                 '--image_size', '299',
@@ -79,17 +83,29 @@ def main():
                 '--lr', '0.0045',
                 '--batch_size', '32',
                 '--resume', get_best_model_path(output_dir, 'inc4_299')])
-
+    '''
     ### Inception V4 560px training
-    tags.append('inc4_560')
+    # Train this on a machine with two GPUs for best results, starting directly at 560px
+    tags.append('inc4_560_init')
     params.append(['--model_type', 'inceptionv4', 
                 '--image_size', '560', 
-                '--epochs', '200', 
+                '--epochs', '1', 
                 '--epoch_decay', '4', 
                 '--lr_decay', '0.94', 
-                '--lr', '0.0045', 
-                '--batch_size', '32',
-                '--resume', get_best_model_path(output_dir, 'inc4_448')])
+                '--warm_up_iterations', '0',
+                '--train_logits_only',
+                '--lr', '0.00225',
+                '--batch_size', '16'])
+
+    tags.append('inc4_560')
+    params.append(['--model_type', 'inceptionv4',
+                '--image_size', '560',
+                '--epochs', '250',
+                '--epoch_decay', '4',
+                '--lr_decay', '0.94',
+                '--lr', '0.00225',
+                '--batch_size', '16',
+                '--resume', get_best_model_path(output_dir, 'inc4_560_init')])
 
     ### Example of fine-tuning of Inception V4 560px on validation data
     # we probably don't need this here as we will fine-tune the whole ensemble
@@ -107,20 +123,18 @@ def main():
 
     # Train the ensemble
     ### Inception V4 560px + ResNeXt 448px training
-    # We want to learning rate to smoothly continue where the Inception V4 training finished,
-    # so I chose the starting epoch to be where the Inception V4 training finished and
-    # left the initial learning rate untouched
-    # We probably do not need to worry about ResNeXt here, as it seems less sensitive to
-    # learning hyperparameters in general
-    tags.append('inc4_560_resnext_448_ft')
-    params.append(['--model_type', 'inceptionv4_resnext101', 
-                '--image_size', '560', '448', 
-                '--epochs', '250',
-                '--start_epoch', '200',
-                '--epoch_decay', '4', 
-                '--lr_decay', '0.94', 
-                '--lr', '0.0045', 
-                '--batch_size', '16',
+    # We want the learning rate to smoothly continue where the ResNeXt model training finished,
+    # so we chose the starting epoch to be where the ResNeXt training finished and
+    # leave the initial learning rate untouched
+    tags.append('inc4_496_resnext_496_ft')
+    params.append(['--model_type', 'inceptionv4_resnext101',
+                '--image_size', '496', '496',
+                '--epochs', '150',
+                '--start_epoch', '100',
+                '--epoch_decay', '30',
+                '--lr_decay', '0.1',
+                '--lr', '0.005',
+                '--batch_size', '8',
                 '--resume', get_best_model_path(output_dir, 'inc4_560'), get_best_model_path(output_dir, 'resnext_448')])
 
     # Checking if everything is set up properly
