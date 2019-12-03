@@ -18,6 +18,8 @@ from flask import send_file
 from predict import Predict
 from sample_images import Sample_images
 
+from flask import escape
+
 search = Search()
 predict = Predict()
 sample_images = Sample_images()
@@ -216,7 +218,7 @@ def get_images():
 @app.route('/get_search_results', methods=['GET'])     
 def get_search_results():
     try:
-        search_string = request.args.get("searchString")
+        search_string = escape(request.args.get("searchString"))
         search.do_search(search_string)
         result = search.result.fillna(' ')
 
@@ -230,7 +232,7 @@ def get_search_results():
 
     except Exception as e:
       print(str(e))
-      return str(e)
+      return "Error occurred while processing the request. The search term could be invalid"
 
 @app.route('/get_more_search_images', methods=['GET'])
 def get_more_search_images():
