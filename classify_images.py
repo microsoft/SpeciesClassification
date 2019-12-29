@@ -68,33 +68,27 @@ if False:
     images_to_classify_base = '/data/species_classification/sample_animals'
     
 # Pick images from a folder
+if False:
+    images_to_classify = '/data/species_classification/elephants_and_hippos'
+    
+# Pick images from a folder
 if True:
     images_to_classify = '/data/species_classification/images/sample_images.2019.12.28'
     job_name = 'sample_images.2019.12.28'
-    
-# Pick images from a folder
-if False:
-    images_to_classify = '/data/species_classification/elephants_and_hippos'
     
 # Classification results will be written here
 classification_output_file = None
 
 model_base = '/data/species_classification/models'
 
-if True:
-    # 2019 fixed model
-    classification_model_path = os.path.join(model_base,
-                                             'iNat_all_extended/demosite-model-ensemble-resnext-inceptionV4-560-83.1/iNat_all_extended_ensemble_resnext_inceptionV4_560_83.1_model.2019.12.00.pytorch')
+# 2019 fixed model
+# classification_model_path = os.path.join(model_base,'iNat_all_extended/demosite-model-ensemble-resnext-inceptionV4-560-83.1/iNat_all_extended_ensemble_resnext_inceptionV4_560_83.1_model.2019.12.00.pytorch')
 
-if True:
-    # 2019 broken model
-    classification_model_path = os.path.join(model_base,
-                                             'iNat_all_extended_buggy/demosite-model-ensemble-resnext-inceptionV4-560-81.0/iNat_all_extended_ensemble_resnext_inceptionV4_560_81.9_model.2019.10.00.pytorch')
+# 2019 broken model
+# classification_model_path = os.path.join(model_base,'iNat_all_extended_buggy/demosite-model-ensemble-resnext-inceptionV4-560-81.0/iNat_all_extended_ensemble_resnext_inceptionV4_560_81.9_model.2019.10.00.pytorch')
 
-if False:
-    # 2018 model    
-    classification_model_path = os.path.join(model_base,
-                                             'iNat_original/inc4-incres2-560-78.5/inc4-incres2-560-78.5.model_deploy.pth.tar')
+# 2018 model    
+classification_model_path = os.path.join(model_base,'iNat_original/inc4-incres2-560-78.5/inc4-incres2-560-78.5.model_deploy.pth.tar')
 
 assert(os.path.isfile(classification_model_path))
 
