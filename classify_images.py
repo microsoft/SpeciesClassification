@@ -15,6 +15,11 @@
 # * a taxonomy file, so the scientific names used in the training data can
 #   be mapped to common names.
 #
+# Note to self... this code is compatible with pytorch 1.2, so when running on a 
+# CUDA 10.0 Linux VM:
+#
+# conda install pytorch==1.2.0 torchvision==0.4.0 cudatoolkit=10.0 -c pytorch
+#
 ####### 
 
 
@@ -25,12 +30,15 @@ import os
 import pandas as pd
 import glob
 
+# Species classification API imports deferred until later, since we have to do a little
+# path management.  This also implicitly defers PyTorch imports.
+
 # Directory to which you sync'd the repo.  Probably the same
 # directory this file lives in, but for portability, this file is set up to only
 # take dependencies on the repo according to this constant.
 api_root = r'/home/coyote/git/speciesclassification'
 subdirs_to_import = ['DetectionClassificationAPI','FasterRCNNDetection','PyTorchClassification']    
-   
+
 # Path to taxa.csv, for latin --> common mapping
 #
 # Set to None to disable latin --> common mapping
@@ -78,7 +86,7 @@ if True:
     classification_model_path = os.path.join(model_base,
                                              'iNat_all_extended/demosite-model-ensemble-resnext-inceptionV4-560-83.1/iNat_all_extended_ensemble_resnext_inceptionV4_560_83.1_model.2019.12.00.pytorch')
 
-if False:
+if True:
     # 2019 broken model
     classification_model_path = os.path.join(model_base,
                                              'iNat_all_extended_buggy/demosite-model-ensemble-resnext-inceptionV4-560-81.0/iNat_all_extended_ensemble_resnext_inceptionV4_560_81.9_model.2019.10.00.pytorch')
@@ -124,9 +132,9 @@ if (not api_root.lower() in map(str.lower,sys.path)):
 
 for s in subdirs_to_import:
     if (not s.lower() in map(str.lower,sys.path)):
-        importPath = os.path.join(api_root,s)
-        print("Adding {} to the python path".format(importPath))
-        sys.path.insert(0,importPath)    
+        import_path = os.path.join(api_root,s)
+        print("Adding {} to the python path".format(import_path))
+        sys.path.insert(0,import_path)    
 
 
 #%% Import classification modules
@@ -136,7 +144,7 @@ import api as speciesapi
 
 #%% Build Latin --> common mapping
 
-latinToCommon = {}
+latin_to_common = {}
 
 if taxonomy_path != None:
         
@@ -153,43 +161,43 @@ if taxonomy_path != None:
     # Create dictionary by ID
     
     nRows = df.shape[0]
-    
+        
     for index, row in df.iterrows():
     
-        latinName = row['scientificName']
-        latinName = latinName.strip()
-        if len(latinName)==0:
+        latin_name = row['scientificName']
+        latin_name = latin_name.strip()
+        if len(latin_name)==0:
             print("Warning: invalid scientific name at {}".format(index))
-            latinName = 'unknown'
-        commonName = row['vernacularName']
-        commonName = commonName.strip()
-        latinName = latinName.lower()
-        commonName = commonName.lower()
-        latinToCommon[latinName] = commonName
+            latin_name = 'unknown'
+        common_name = row['vernacularName']
+        common_name = common_name.strip()
+        latin_name = latin_name.lower()
+        common_name = common_name.lower()
+        latin_to_common[latin_name] = common_name
     
     print("Finished reading taxonomy file")
 
 
 #%% Latin-->common lookup
 
-def doLatinToCommon(latinName):
+def do_latin_to_common(latin_name):
 
-    if len(latinToCommon) == 0:
-        return latinName
+    if len(latin_to_common) == 0:
+        return latin_name
     
-    latinName = latinName.lower()
-    if not latinName in latinToCommon:
-        print("Warning: latin name {} not in lookup table".format(latinName))
-        commonName = latinName
+    latin_name = latin_name.lower()
+    if not latin_name in latin_to_common:
+        print("Warning: latin name {} not in lookup table".format(latin_name))
+        common_name = latin_name
     else:
-        commonName = latinToCommon[latinName]
-        commonName = commonName.strip()
+        common_name = latin_to_common[latin_name]
+        common_name = common_name.strip()
         
-    if (len(commonName) == 0):
-        print("Warning: empty result for latin name {}".format(latinName))
-        commonName = latinName
+    if (len(common_name) == 0):
+        print("Warning: empty result for latin name {}".format(latin_name))
+        common_name = latin_name
 
-    return commonName
+    return common_name
 
 
 #%% Create the model(s)
@@ -270,12 +278,12 @@ for i_fn,fn in enumerate(images):
 
     # i_prediction = 0
     for i_prediction in range(0, min(len(prediction.species),mak_k_to_print)):
-        latinName = prediction.species[i_prediction]
+        latin_name = prediction.species[i_prediction]
         likelihood = prediction.species_scores[i_prediction]
         likelihood = '{0:0.3f}'.format(likelihood)
-        commonName = doLatinToCommon(latinName)
+        common_name = do_latin_to_common(latin_name)
         s = '"{}","{}","{}","{}","{}","{}","{}"'.format(
-                i_fn,fn,query,i_prediction,latinName,commonName,likelihood)
+                i_fn,fn,query,i_prediction,latin_name,common_name,likelihood)
         if classification_output_file is not None:
             f.write(s + '\n')
         print(s)
