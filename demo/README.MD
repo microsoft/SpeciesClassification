@@ -33,7 +33,7 @@ The demo was tested on an Azure VM with the following configuration:
    
 <p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<img src="sample_images_dir_structure.jpg" alt="sample images directory structure"/></p>
   
-* Run `demo/setup_sample_images.py`.  This script does the following:
+* Run `demo/setup_sample_images.py` (for internal AI4E species classification site run demo/ai4e_setup_images.py).  This script does the following:
   - Renames the files/directories to remove invalid characters.
   - Creates a csv index file called `demo/static/data/updated_animal_list.csv`, which contains the file paths and      corresponding animal names (extracted from the directory names).
   - Creates a thumbnails folder from the provided images. Thumbnails are resized images from the `animals` folder; these are the images
