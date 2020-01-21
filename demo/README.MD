@@ -51,6 +51,6 @@ pip install pandas==0.24.2
 pip install Pillow==6.1.0
 ```
 
-- To start the demo, run command python `demo/app.py`
+- To start the demo, run command `python demo/app.py`
 - In a browser, navigate to `http://<your VM address>:5000`
 
