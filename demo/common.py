@@ -6,10 +6,14 @@ import traceback
 import numpy as np
 import config
 from PIL import Image
-from urlparse import urlparse
 from io import StringIO
 from enums import*
 from flask import Flask, render_template, request, jsonify, make_response, url_for, g
+
+try:
+    from urlparse import urlparse
+except ImportError:
+    from urllib.parse import urlparse
 
 root_dir = config.ROOT_PATH
 sample_dir = config.SAMPLE_PATH
