@@ -87,6 +87,7 @@ function PopulateModal(e, o) {
             var a = $("#prediction-result" + ++i);
             void 0 !== r && "" != r.trim() ? 
             (bingURL = "https://bing.com/images/search?q=" + r.replace("_", "-"),
+            a.find(".common-name").html(""),
             a.find(".bing-URL-Link").on("click"),
             a.find(".bing-URL-Link").attr("href", bingURL),
             a.find(".bing-URL-Link").text(r)) : (a.find(".bing-URL-Link").off("click"),
@@ -149,5 +150,4 @@ function ResizeImage(e) {
         console.log("Error details:"),
         console.log(i))
     }),
-    o
 }
