@@ -131,17 +131,17 @@ function CheckFileSizeOrDimensions(e) {
     }),
     o
 }
-function ResizeImage(e) {
-    var o = "";
+function ResizeImage(imgPath) {
+    var img_path = "";
     return $.ajax({
         url: "/resize_image_file",
         method: "GET",
         data: {
-            imgPath: e
+            imgPath: imgPath
         },
         async: !1
     }).done(function(e) {
-        o = e.img_path
+        img_path = e.img_path
     }).fail(function(e, o, i) {
         UnBlockUI(),
         e.getAllResponseHeaders() && 
@@ -150,4 +150,6 @@ function ResizeImage(e) {
         console.log("Error details:"),
         console.log(i))
     }),
+    img_path
 }
+
