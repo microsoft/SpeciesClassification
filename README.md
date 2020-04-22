@@ -6,7 +6,19 @@ This project contains the training code for the Microsoft AI for Earth Species C
 The training data is not provided in this repo, so you can think of this repo as a set of tools for training fine-grained classifiers.  If you want lots of animal-related data to play around with, check out our open data repository at [lila.science](http://lila.science), including LILA's list of [other data sets](http://lila.science/otherdatasets) related to conservation.
 
 
-## Getting started
+## I don't want to train anything, I just want your model
+
+No problem!  The model is publicly available:
+
+* [PyTorch model file](https://lilablobssc.blob.core.windows.net/models/species_classification/species_classification.2019.12.00.pytorch)
+* [ONNX model file] (https://lilablobssc.blob.core.windows.net/models/species_classification/species_classification.2019.12.00.onnx)
+* [Class list](https://lilablobssc.blob.core.windows.net/models/species_classification/species_classification.2019.12.00.classes.txt)
+* [Taxonomy file used for Latin &rarr; common mapping](https://lilablobssc.blob.core.windows.net/models/species_classification/species_classification.2019.12.00.taxa.csv)
+
+Your one-stop-shop for learning how to run this model is the [classify_images.py](https://github.com/microsoft/SpeciesClassification/blob/master/classify_images.py) script in the root of this repo.
+
+
+## Getting started with model training
 
 See the [README](PyTorchClassification/README.md) in the `PyTorchClassification` directory to get started training your own classification models with this PyTorch-based framework.
 
