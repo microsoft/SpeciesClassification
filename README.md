@@ -11,7 +11,7 @@ The training data is not provided in this repo, so you can think of this repo as
 No problem!  The model is publicly available:
 
 * [PyTorch model file](https://lilablobssc.blob.core.windows.net/models/species_classification/species_classification.2019.12.00.pytorch)
-* [ONNX model file] (https://lilablobssc.blob.core.windows.net/models/species_classification/species_classification.2019.12.00.onnx)
+* [ONNX model file](https://lilablobssc.blob.core.windows.net/models/species_classification/species_classification.2019.12.00.onnx)
 * [Class list](https://lilablobssc.blob.core.windows.net/models/species_classification/species_classification.2019.12.00.classes.txt)
 * [Taxonomy file used for Latin &rarr; common mapping](https://lilablobssc.blob.core.windows.net/models/species_classification/species_classification.2019.12.00.taxa.csv)
 
