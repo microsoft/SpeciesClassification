@@ -1,4 +1,6 @@
 
+<img src="https://github.com/microsoft/SpeciesClassification/blob/master/species_demo.png"><br/><br/>
+
 ## Overview
 
 This project contains the training code for the Microsoft AI for Earth Species Classification API, along with the code for our [API demo page](http://aka.ms/speciesclassification).  This API classifies handheld photos of around 5000 plant and animal species.  There is also a pipeline included for training detectors, and an API layer that simplifies running inference with an existing model, either on whole images or on detected crops.
