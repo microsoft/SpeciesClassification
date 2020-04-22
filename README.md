@@ -1,5 +1,5 @@
 
-<img src="https://github.com/microsoft/SpeciesClassification/blob/master/species_demo.png"><br/><br/>
+<img src="https://github.com/microsoft/SpeciesClassification/blob/master/species_classification_demo.png"><br/><br/>
 
 ## Overview
 
