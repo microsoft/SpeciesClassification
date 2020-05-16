@@ -166,7 +166,7 @@ def download_url(url, destination_filename=None, progress_updater=None, force_do
         temp_dir = os.path.join(tempfile.gettempdir(),'species_classification')
         os.makedirs(temp_dir,exist_ok=True)
         
-    # This is not indended to gurantee uniqueness, we just know it happens to guarantee
+    # This is not intended to guarantee uniqueness, we just know it happens to guarantee
     # uniqueness for this application.
     if destination_filename is None:
         url_as_filename = url.replace('://', '_').replace('.', '_').replace('/', '_')
