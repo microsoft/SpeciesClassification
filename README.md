@@ -14,11 +14,14 @@ No problem!  The model is publicly available:
 
 * [PyTorch model file](https://lilablobssc.blob.core.windows.net/models/species_classification/species_classification.2019.12.00.pytorch)
 * [ONNX model file](https://lilablobssc.blob.core.windows.net/models/species_classification/species_classification.2019.12.00.onnx)
-* [Class list](https://lilablobssc.blob.core.windows.net/models/species_classification/species_classification.2019.12.00.classes.txt)
+* [TFLite model file](https://lilablobssc.blob.core.windows.net/models/species_classification/species_classification.2019.12.00.tflite)
+* [Class list (scientific names)](https://lilablobssc.blob.core.windows.net/models/species_classification/species_classification.2019.12.00.classes.txt)
+* [Class list (common names)](https://lilablobssc.blob.core.windows.net/models/species_classification/species_classification.2019.12.00.common_names.txt)
 * [Taxonomy file used for Latin &rarr; common mapping](https://lilablobssc.blob.core.windows.net/models/species_classification/species_classification.2019.12.00.taxa.csv)
 
 Your one-stop-shop for learning how to run this model is the [classify_images.py](https://github.com/microsoft/SpeciesClassification/blob/master/classify_images.py) script in the root of this repo.
 
+Thanks to [Joe Syzmanski](https://www.linkedin.com/in/joe-szymanski-04552917/) for converting the model to TFLite.
 
 ## Getting started with model training
 
