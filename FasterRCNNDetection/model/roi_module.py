@@ -11,7 +11,7 @@ from model.utils.roi_cupy import kernel_backward, kernel_forward
 Stream = namedtuple('Stream', ['ptr'])
 
 
-@cupy.util.memoize(for_each_device=True)
+@cupy.memoize(for_each_device=True)
 def load_kernel(kernel_name, code, **kwargs):
     cp.cuda.runtime.free(0)
     code = Template(code).substitute(**kwargs)
