@@ -341,7 +341,7 @@ for i_fn,fn in enumerate(images):
         likelihood = prediction.species_scores[i_prediction]
         likelihood = '{0:0.3f}'.format(likelihood)
         common_name = do_latin_to_common(latin_name)
-        s = '"{}","{}","{}","{}",{}","{}","{}"'.format(
+        s = '"{}","{}","{}","{}","{}","{}","{}"'.format(
                 i_fn,fn,query,i_prediction,latin_name,common_name,likelihood)
         if classification_output_file is not None:
             f.write(s + '\n')
