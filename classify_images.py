@@ -37,6 +37,7 @@ import pandas as pd
 import glob
 import urllib
 import tempfile
+import ssl
 
 # pip install progressbar2, not progressbar
 import progressbar
@@ -93,6 +94,8 @@ detection_model_path = None
 # on the CPU or GPU.
 use_gpu = True
 
+# Enable when downloads have invalid certificates and you want to risk trusting them
+insecure_urllib = False
 
 #%% Constants 
 
@@ -176,7 +179,9 @@ def download_url(url, destination_filename=None, progress_updater=None, force_do
         print('Bypassing download of already-downloaded file {}'.format(os.path.basename(url)))
         return destination_filename
     print('Downloading file {}'.format(os.path.basename(url)),end='')
-    urllib.request.urlretrieve(url, destination_filename, progress_updater)  
+    if (insecure_urllib):
+        ssl._create_default_https_context = ssl._create_unverified_context
+    urllib.request.urlretrieve(url, destination_filename, progress_updater)
     assert(os.path.isfile(destination_filename))
     nBytes = os.path.getsize(destination_filename)
     print('...done, {} bytes.'.format(nBytes))
