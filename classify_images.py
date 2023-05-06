@@ -20,14 +20,26 @@
 #
 # Dependencies (may work against later versions, but this was the test environment):
 #
-# conda install pytorch==1.2.0 torchvision==0.4.0 cudatoolkit=10.0 -c pytorch
-# pip install pretrainedmodels==0.7.4
-# pip install pillow==6.1.0
-# pip install progressbar2==3.51.0
-# pip install cupy-cuda100==7.3.0
-# pip install torchnet==0.0.4
+# Using conda:
+#   conda install pytorch==1.2.0 torchvision==0.4.0 cudatoolkit=11.7 -c pytorch
+# Alternativly using apt under Ubuntu 22.04:
+#   apt install -y nvidia-cuda-toolkit
+#   pip install cupy-cuda11x
+# Alternativly using apt under Ubuntu 20.04:
+#   apt install -y nvidia-cuda-toolkit
+#   pip install cupy-cuda101
 #
-####### 
+# Then install:
+# pip install \
+#   matplotlib==3.5.1 \
+#   pandas==1.3.5 \
+#   pillow==9.2.0 \
+#   pretrainedmodels==0.7.4 \
+#   progressbar2==3.51.0 \
+#   scikit-image==0.19.3 \
+#   torchnet==0.0.4
+#
+#######
 
 #%% Imports
 
